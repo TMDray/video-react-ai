@@ -18,3 +18,5 @@ public/images/
 # Environment
 .env
 .env.local
+
+.venv
