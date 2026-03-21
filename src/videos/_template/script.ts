@@ -1,4 +1,4 @@
-import type { VideoScript } from "@/lib/types";
+import type { VideoScript } from "../../lib/types";
 
 export const script: VideoScript = {
   title: "__TITLE__",

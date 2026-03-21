@@ -11,8 +11,8 @@ import {
   type TikTokPage,
   type TikTokToken,
 } from "@remotion/captions";
-import { colors, primaryGlow } from "@/lib/colors";
-import { fontHeading } from "@/lib/fonts";
+import { colors, primaryGlow } from "./colors";
+import { fontHeading } from "./fonts";
 
 // ── Types ────────────────────────────────────────────────
 
