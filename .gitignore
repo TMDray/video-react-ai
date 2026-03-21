@@ -1,0 +1,20 @@
+node_modules/
+dist/
+out/
+
+# Generated audio (regeneratable via scripts)
+public/audio/sfx/*.wav
+public/audio/music/*.wav
+public/audio/voiceover/**/*.mp3
+
+# Keep directory structure
+!public/audio/sfx/.gitkeep
+!public/audio/music/.gitkeep
+!public/audio/voiceover/.gitkeep
+
+# Downloaded stock images (re-downloadable)
+public/images/
+
+# Environment
+.env
+.env.local

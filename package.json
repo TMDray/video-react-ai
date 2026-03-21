@@ -1,0 +1,37 @@
+{
+  "name": "remotion-video-template",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "studio": "remotion studio src/index.ts",
+    "render": "remotion render src/index.ts",
+    "render:all": "for id in $(remotion compositions src/index.ts --quiet); do remotion render src/index.ts $id out/$id.mp4; done",
+    "new-video": "bash scripts/new-video.sh",
+    "generate:audio": "tsx scripts/generate-audio.ts",
+    "generate:voiceover": "tsx scripts/generate-voiceover.ts",
+    "translate:srt": "tsx scripts/translate-srt.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@remotion/bundler": "4.0.432",
+    "@remotion/captions": "^4.0.438",
+    "@remotion/cli": "4.0.432",
+    "@remotion/google-fonts": "4.0.432",
+    "@remotion/lottie": "^4.0.438",
+    "@remotion/media-utils": "4.0.432",
+    "@remotion/transitions": "4.0.432",
+    "elevenlabs": "^1.59.0",
+    "lottie-web": "^5.13.0",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "remotion": "4.0.432"
+  },
+  "devDependencies": {
+    "@remotion/tailwind-v4": "4.0.432",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "tailwindcss": "^4.2.1",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3"
+  }
+}
