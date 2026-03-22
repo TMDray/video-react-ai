@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Controller, Control, FieldError } from "react-hook-form";
+import { Controller } from "react-hook-form";
+import type { Control, FieldError, Merge, FieldErrorsImpl } from "react-hook-form";
 import { FieldDescriptor } from "../../lib/schemaIntrospection";
 import { AssetPicker } from "../AssetPicker";
 import styles from "./fields.module.css";
@@ -8,7 +9,7 @@ interface AssetFieldProps {
   field: FieldDescriptor;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   control: Control<any>;
-  error?: FieldError;
+  error?: FieldError | Merge<FieldError, FieldErrorsImpl<any>>;
 }
 
 export const AssetField: React.FC<AssetFieldProps> = ({ field, control, error }) => {

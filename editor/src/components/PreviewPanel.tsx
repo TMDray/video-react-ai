@@ -9,7 +9,7 @@ interface PreviewPanelProps {
   entry: VideoEntry;
   formatId: FormatId;
   props: Record<string, unknown>;
-  playerRef?: React.RefObject<PlayerRef>;
+  playerRef?: React.RefObject<PlayerRef | null>;
 }
 
 export const PreviewPanel: React.FC<PreviewPanelProps> = ({

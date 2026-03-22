@@ -1,5 +1,5 @@
 import { useRef, useState, useEffect } from "react";
-import { PlayerRef } from "@remotion/player";
+import type { PlayerRef, CallbackListener } from "@remotion/player";
 
 export function usePlayerRef(durationInFrames: number) {
   const playerRef = useRef<PlayerRef | null>(null);
@@ -9,9 +9,8 @@ export function usePlayerRef(durationInFrames: number) {
     const ref = playerRef.current;
     if (!ref) return;
 
-    const handleFrameUpdate = (event: Event) => {
-      const customEvent = event as CustomEvent<{ frame: number }>;
-      setCurrentFrame(customEvent.detail.frame);
+    const handleFrameUpdate: CallbackListener<"frameupdate"> = ({ detail }) => {
+      setCurrentFrame(detail.frame);
     };
 
     ref.addEventListener("frameupdate", handleFrameUpdate);

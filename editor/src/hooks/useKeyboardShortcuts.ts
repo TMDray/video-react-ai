@@ -12,7 +12,8 @@ interface UseKeyboardShortcutsOptions {
 /**
  * Check if the event target is an input or textarea
  */
-function isInputFocused(target: EventTarget): boolean {
+function isInputFocused(target: EventTarget | null): boolean {
+  if (!target) return false;
   return target instanceof HTMLInputElement || target instanceof HTMLTextAreaElement;
 }
 

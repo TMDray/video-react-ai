@@ -3,7 +3,7 @@ import { PlayerRef } from "@remotion/player";
 import styles from "./TimelineControls.module.css";
 
 interface TimelineControlsProps {
-  playerRef: React.RefObject<PlayerRef>;
+  playerRef: React.RefObject<PlayerRef | null>;
   currentFrame: number;
   durationInFrames: number;
 }
