@@ -26,11 +26,7 @@ if (!slug) {
  * On 429 (rate limit): waits 5s × attempt
  * On other errors: waits 1s × attempt
  */
-async function withRetry<T>(
-  fn: () => Promise<T>,
-  maxAttempts = 3,
-  label = ""
-): Promise<T> {
+async function withRetry<T>(fn: () => Promise<T>, maxAttempts = 3, label = ""): Promise<T> {
   for (let attempt = 1; attempt <= maxAttempts; attempt++) {
     try {
       return await fn();
@@ -57,9 +53,7 @@ async function main() {
   const apiKey = process.env.ELEVENLABS_API_KEY;
   if (!apiKey) {
     console.error("❌ ELEVENLABS_API_KEY not set. Set it in .env or environment.");
-    console.error(
-      "   Get a free key: https://elevenlabs.io/sign-up"
-    );
+    console.error("   Get a free key: https://elevenlabs.io/sign-up");
     process.exit(1);
   }
 

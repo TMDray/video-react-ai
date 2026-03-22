@@ -1,10 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import {
-  AbsoluteFill,
-  staticFile,
-  useCurrentFrame,
-  useVideoConfig,
-} from "remotion";
+import { AbsoluteFill, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
 import {
   parseSrt,
   createTikTokStyleCaptions,
@@ -63,9 +58,7 @@ export const SubtitleLayer: React.FC<SubtitleLayerProps> = ({
 
   // Find the active page for this frame
   const activePage = pages.find(
-    (page) =>
-      currentTimeMs >= page.startMs &&
-      currentTimeMs < page.startMs + page.durationMs,
+    (page) => currentTimeMs >= page.startMs && currentTimeMs < page.startMs + page.durationMs
   );
 
   if (!activePage) return null;
@@ -107,8 +100,7 @@ const CaptionWord: React.FC<{
   token: TikTokToken;
   currentTimeMs: number;
 }> = ({ token, currentTimeMs }) => {
-  const isActive =
-    currentTimeMs >= token.fromMs && currentTimeMs < token.toMs;
+  const isActive = currentTimeMs >= token.fromMs && currentTimeMs < token.toMs;
 
   return (
     <span

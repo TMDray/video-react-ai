@@ -34,13 +34,13 @@ export function fadePresentation() {
 }
 
 export function slidePresentation(
-  direction: "from-left" | "from-right" | "from-top" | "from-bottom" = "from-left",
+  direction: "from-left" | "from-right" | "from-top" | "from-bottom" = "from-left"
 ) {
   return slide({ direction });
 }
 
 export function wipePresentation(
-  direction: "from-left" | "from-right" | "from-top" | "from-bottom" = "from-left",
+  direction: "from-left" | "from-right" | "from-top" | "from-bottom" = "from-left"
 ) {
   return wipe({ direction });
 }

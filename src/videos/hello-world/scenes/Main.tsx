@@ -54,12 +54,7 @@ export const Main: React.FC<MainProps> = ({ headline }) => {
           description="Compose with React components"
           delay={10}
         />
-        <FeatureCard
-          icon="🎵"
-          title="Audio"
-          description="SFX, music & voiceover sync"
-          delay={20}
-        />
+        <FeatureCard icon="🎵" title="Audio" description="SFX, music & voiceover sync" delay={20} />
         <FeatureCard
           icon="📐"
           title="Multi-format"

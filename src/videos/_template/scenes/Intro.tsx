@@ -1,11 +1,4 @@
-import {
-  AbsoluteFill,
-  Img,
-  spring,
-  useCurrentFrame,
-  useVideoConfig,
-  staticFile,
-} from "remotion";
+import { AbsoluteFill, Img, spring, useCurrentFrame, useVideoConfig, staticFile } from "remotion";
 import { colors, primaryGlow } from "../../../lib/colors";
 import { fontHeading } from "../../../lib/fonts";
 import { fadeIn, glowPulse } from "../../../lib/animations";

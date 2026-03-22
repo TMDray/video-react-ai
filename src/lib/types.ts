@@ -67,26 +67,26 @@ export interface AudioConfig {
 /** Role of a scene in the narrative arc. Covers marketing AND entertainment. */
 export type SceneRole =
   // Universal
-  | "hook"           // 0-3s — grab attention immediately
-  | "pattern-break"  // visual/audio interrupt to reset attention
-  | "cta"            // call to action / end card
+  | "hook" // 0-3s — grab attention immediately
+  | "pattern-break" // visual/audio interrupt to reset attention
+  | "cta" // call to action / end card
   // Marketing / Conversion
-  | "problem"        // pain point / relatable situation
-  | "agitate"        // amplify consequences, create urgency
-  | "solution"       // introduce the answer
-  | "demo"           // show the product / proof in action
-  | "social-proof"   // testimonial, stats, logos
-  | "before"         // current painful reality (BAB)
-  | "after"          // improved state (BAB)
-  | "bridge"         // how to get from before to after (BAB)
+  | "problem" // pain point / relatable situation
+  | "agitate" // amplify consequences, create urgency
+  | "solution" // introduce the answer
+  | "demo" // show the product / proof in action
+  | "social-proof" // testimonial, stats, logos
+  | "before" // current painful reality (BAB)
+  | "after" // improved state (BAB)
+  | "bridge" // how to get from before to after (BAB)
   // Entertainment / Storytelling
-  | "setup"          // establish context, characters, world
-  | "build"          // rising tension, development
-  | "climax"         // peak moment, revelation, punchline
-  | "twist"          // unexpected turn
-  | "payoff"         // resolution, emotional landing
+  | "setup" // establish context, characters, world
+  | "build" // rising tension, development
+  | "climax" // peak moment, revelation, punchline
+  | "twist" // unexpected turn
+  | "payoff" // resolution, emotional landing
   // Generic
-  | "content";       // general content (no specific narrative role)
+  | "content"; // general content (no specific narrative role)
 
 export interface ScriptScene {
   id: string;

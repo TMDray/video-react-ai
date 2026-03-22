@@ -10,7 +10,12 @@ export const audioConfig: AudioConfig = {
     },
     segments: [
       { id: "01-intro", text: "Welcome. This is your video template.", fromFrame: 0, toFrame: 119 },
-      { id: "02-main", text: "Everything you see is built with code. Fully customizable.", fromFrame: 105, toFrame: 329 },
+      {
+        id: "02-main",
+        text: "Everything you see is built with code. Fully customizable.",
+        fromFrame: 105,
+        toFrame: 329,
+      },
       { id: "03-outro", text: "Get started today.", fromFrame: 315, toFrame: 449 },
     ],
   },

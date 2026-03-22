@@ -1,10 +1,4 @@
-import {
-  AbsoluteFill,
-  Img,
-  useCurrentFrame,
-  useVideoConfig,
-  staticFile,
-} from "remotion";
+import { AbsoluteFill, Img, useCurrentFrame, useVideoConfig, staticFile } from "remotion";
 import { colors, primaryGlow } from "../../../lib/colors";
 import { fontHeading } from "../../../lib/fonts";
 import { fadeInOut, fadeIn } from "../../../lib/animations";
@@ -16,12 +10,7 @@ interface OutroProps {
   logoUrl: string;
 }
 
-export const Outro: React.FC<OutroProps> = ({
-  brandName,
-  tagline,
-  ctaText,
-  logoUrl,
-}) => {
+export const Outro: React.FC<OutroProps> = ({ brandName, tagline, ctaText, logoUrl }) => {
   const frame = useCurrentFrame();
   const { durationInFrames } = useVideoConfig();
 
@@ -35,10 +24,7 @@ export const Outro: React.FC<OutroProps> = ({
       }}
     >
       <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-        <Img
-          src={staticFile(logoUrl)}
-          style={{ width: 56, height: 56 }}
-        />
+        <Img src={staticFile(logoUrl)} style={{ width: 56, height: 56 }} />
         <div
           style={{
             fontSize: 48,

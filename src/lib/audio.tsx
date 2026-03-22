@@ -18,10 +18,7 @@ export const SfxLayer: React.FC<{ cues: SfxCue[] }> = ({ cues }) => {
           durationInFrames={cue.durationInFrames}
           name={`SFX-${cue.sfx}`}
         >
-          <Audio
-            src={staticFile(`audio/sfx/${cue.sfx}.wav`)}
-            volume={cue.volume ?? 0.5}
-          />
+          <Audio src={staticFile(`audio/sfx/${cue.sfx}.wav`)} volume={cue.volume ?? 0.5} />
         </Sequence>
       ))}
     </>
@@ -37,8 +34,7 @@ export const MusicLayer: React.FC<{
   source?: "file" | "jamendo";
   volume?: number;
 }> = ({ src, source = "file", volume = 0.08 }) => {
-  const musicPath =
-    source === "jamendo" ? `audio/music/${src}.mp3` : src;
+  const musicPath = source === "jamendo" ? `audio/music/${src}.mp3` : src;
   return <Audio src={staticFile(musicPath)} volume={volume} />;
 };
 

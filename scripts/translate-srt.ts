@@ -18,9 +18,7 @@ const inputPath = process.argv[2];
 const targetLang = process.argv[3];
 
 if (!inputPath || !targetLang) {
-  console.error(
-    "Usage: npx tsx scripts/translate-srt.ts <input.srt> <target-lang>",
-  );
+  console.error("Usage: npx tsx scripts/translate-srt.ts <input.srt> <target-lang>");
   console.error("Example: npx tsx scripts/translate-srt.ts public/subs/intro.srt fr");
   process.exit(1);
 }
@@ -65,12 +63,10 @@ function serializeSrtBlocks(blocks: SrtBlock[]): string {
 async function translateWithDeepL(
   texts: string[],
   targetLang: string,
-  apiKey: string,
+  apiKey: string
 ): Promise<string[]> {
   // DeepL free API uses api-free.deepl.com, pro uses api.deepl.com
-  const baseUrl = apiKey.endsWith(":fx")
-    ? "https://api-free.deepl.com"
-    : "https://api.deepl.com";
+  const baseUrl = apiKey.endsWith(":fx") ? "https://api-free.deepl.com" : "https://api.deepl.com";
 
   const res = await fetch(`${baseUrl}/v2/translate`, {
     method: "POST",
@@ -95,10 +91,7 @@ async function translateWithDeepL(
   return data.translations.map((t) => t.text);
 }
 
-async function translateWithGoogle(
-  texts: string[],
-  targetLang: string,
-): Promise<string[]> {
+async function translateWithGoogle(texts: string[], targetLang: string): Promise<string[]> {
   const results: string[] = [];
 
   for (const text of texts) {
@@ -135,9 +128,7 @@ async function main() {
   }
 
   const texts = blocks.map((b) => b.text);
-  console.log(
-    `Translating ${blocks.length} segments to "${targetLang}"...`,
-  );
+  console.log(`Translating ${blocks.length} segments to "${targetLang}"...`);
 
   let translated: string[];
   const deeplKey = process.env.DEEPL_API_KEY;

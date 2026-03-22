@@ -20,19 +20,13 @@ export const TemplateComposition: React.FC<TemplateProps> = (props) => {
           <Intro title={props.title} logoUrl={props.logoUrl} />
         </TransitionSeries.Sequence>
 
-        <TransitionSeries.Transition
-          presentation={fadePresentation()}
-          timing={springTiming(t)}
-        />
+        <TransitionSeries.Transition presentation={fadePresentation()} timing={springTiming(t)} />
 
         <TransitionSeries.Sequence durationInFrames={config.scenes.main.duration}>
           <Main body={props.body} />
         </TransitionSeries.Sequence>
 
-        <TransitionSeries.Transition
-          presentation={fadePresentation()}
-          timing={springTiming(t)}
-        />
+        <TransitionSeries.Transition presentation={fadePresentation()} timing={springTiming(t)} />
 
         <TransitionSeries.Sequence durationInFrames={config.scenes.outro.duration}>
           <Outro title={props.title} subtitle={props.subtitle} ctaText={props.ctaText} />

@@ -18,8 +18,7 @@ export const LottieAsset: React.FC<{
   /** Playback speed multiplier (default: 1) */
   playbackRate?: number;
 }> = ({ src, style, loop = false, playbackRate = 1 }) => {
-  const [animationData, setAnimationData] =
-    useState<LottieAnimationData | null>(null);
+  const [animationData, setAnimationData] = useState<LottieAnimationData | null>(null);
   const [handle] = useState(() => delayRender("Loading Lottie animation"));
 
   useEffect(() => {
@@ -37,11 +36,6 @@ export const LottieAsset: React.FC<{
   if (!animationData) return null;
 
   return (
-    <Lottie
-      animationData={animationData}
-      style={style}
-      loop={loop}
-      playbackRate={playbackRate}
-    />
+    <Lottie animationData={animationData} style={style} loop={loop} playbackRate={playbackRate} />
   );
 };

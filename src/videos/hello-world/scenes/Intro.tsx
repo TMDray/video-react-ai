@@ -1,11 +1,4 @@
-import {
-  AbsoluteFill,
-  Img,
-  spring,
-  useCurrentFrame,
-  useVideoConfig,
-  staticFile,
-} from "remotion";
+import { AbsoluteFill, Img, spring, useCurrentFrame, useVideoConfig, staticFile } from "remotion";
 import { colors, primaryGlow } from "../../../lib/colors";
 import { fontHeading } from "../../../lib/fonts";
 import { fadeIn, glowPulse } from "../../../lib/animations";
@@ -44,10 +37,7 @@ export const Intro: React.FC<IntroProps> = ({ brandName, tagline, logoUrl }) => 
           alignItems: "center",
         }}
       >
-        <Img
-          src={staticFile(logoUrl)}
-          style={{ width: 140, height: 140 }}
-        />
+        <Img src={staticFile(logoUrl)} style={{ width: 140, height: 140 }} />
       </div>
       <div
         style={{

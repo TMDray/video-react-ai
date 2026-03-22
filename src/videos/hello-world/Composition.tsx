@@ -28,22 +28,21 @@ export const HelloWorldComposition: React.FC<HelloWorldProps> = (props) => {
           <Intro brandName={props.brandName} tagline={props.tagline} logoUrl={props.logoUrl} />
         </TransitionSeries.Sequence>
 
-        <TransitionSeries.Transition
-          presentation={fadePresentation()}
-          timing={springTiming(t)}
-        />
+        <TransitionSeries.Transition presentation={fadePresentation()} timing={springTiming(t)} />
 
         <TransitionSeries.Sequence durationInFrames={config.scenes.main.duration}>
           <Main headline={props.headline} />
         </TransitionSeries.Sequence>
 
-        <TransitionSeries.Transition
-          presentation={fadePresentation()}
-          timing={springTiming(t)}
-        />
+        <TransitionSeries.Transition presentation={fadePresentation()} timing={springTiming(t)} />
 
         <TransitionSeries.Sequence durationInFrames={config.scenes.outro.duration}>
-          <Outro brandName={props.brandName} tagline={props.tagline} ctaText={props.ctaText} logoUrl={props.logoUrl} />
+          <Outro
+            brandName={props.brandName}
+            tagline={props.tagline}
+            ctaText={props.ctaText}
+            logoUrl={props.logoUrl}
+          />
         </TransitionSeries.Sequence>
       </TransitionSeries>
 
