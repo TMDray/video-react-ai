@@ -15,7 +15,6 @@ export default defineConfig({
 			'@remotion/google-fonts/from-info',
 			'@remotion/layout-utils',
 			'@remotion/shapes',
-			'@remotion/captions',
 			'@remotion/media',
 			'@remotion/openai-whisper',
 			// Motion design packages — ESM, no optimization needed
