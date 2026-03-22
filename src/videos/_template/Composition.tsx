@@ -8,15 +8,16 @@ import { config } from "./config";
 import { Intro } from "./scenes/Intro";
 import { Main } from "./scenes/Main";
 import { Outro } from "./scenes/Outro";
+import type { TemplateProps } from "./schema";
 
-export const TemplateComposition: React.FC = () => {
+export const TemplateComposition: React.FC<TemplateProps> = (props) => {
   const t = config.transitionDuration;
 
   return (
     <AbsoluteFill style={{ backgroundColor: colors.bg }}>
       <TransitionSeries>
         <TransitionSeries.Sequence durationInFrames={config.scenes.intro.duration}>
-          <Intro />
+          <Intro title={props.title} logoUrl={props.logoUrl} />
         </TransitionSeries.Sequence>
 
         <TransitionSeries.Transition
@@ -25,7 +26,7 @@ export const TemplateComposition: React.FC = () => {
         />
 
         <TransitionSeries.Sequence durationInFrames={config.scenes.main.duration}>
-          <Main />
+          <Main body={props.body} />
         </TransitionSeries.Sequence>
 
         <TransitionSeries.Transition
@@ -34,13 +35,17 @@ export const TemplateComposition: React.FC = () => {
         />
 
         <TransitionSeries.Sequence durationInFrames={config.scenes.outro.duration}>
-          <Outro />
+          <Outro title={props.title} subtitle={props.subtitle} ctaText={props.ctaText} />
         </TransitionSeries.Sequence>
       </TransitionSeries>
 
       <SfxLayer cues={audioConfig.sfx} />
       {audioConfig.music && (
-        <MusicLayer src={audioConfig.music.src} volume={audioConfig.music.volume} />
+        <MusicLayer
+          src={audioConfig.music.src}
+          source={audioConfig.music.source}
+          volume={audioConfig.music.volume}
+        />
       )}
     </AbsoluteFill>
   );

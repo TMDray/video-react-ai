@@ -1,1 +1,11 @@
-{}
+{
+  "mcpServers": {
+    "jamendo": {
+      "command": "python",
+      "args": [".mcp/jamendo/server.py"],
+      "env": {
+        "JAMENDO_API_KEY": "${JAMENDO_API_KEY}"
+      }
+    }
+  }
+}

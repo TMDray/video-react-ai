@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  jamendo-mcp:
+    build: .
+    image: jamendo-mcp:latest
+    container_name: jamendo-mcp-server
+    stdin_open: true
+    env_file:
+      - .env
+    environment:
+      - JAMENDO_API_KEY=${JAMENDO_API_KEY}
+    healthcheck:
+      test: ["CMD", "python", "-c", "from jamendo_client import JamendoClient; JamendoClient()"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 5s
+    resources:
+      limits:
+        cpus: '1.0'
+        memory: 512M
+      reservations:
+        cpus: '0.5'
+        memory: 256M

@@ -1,10 +1,15 @@
-import { AbsoluteFill, Img, useCurrentFrame, useVideoConfig, staticFile } from "remotion";
-import { brand } from "../../../brand.config";
+import { AbsoluteFill, useCurrentFrame, useVideoConfig } from "remotion";
 import { colors } from "../../../lib/colors";
 import { fontHeading } from "../../../lib/fonts";
 import { fadeInOut, fadeIn } from "../../../lib/animations";
 
-export const Outro: React.FC = () => {
+interface OutroProps {
+  title: string;
+  subtitle: string;
+  ctaText: string;
+}
+
+export const Outro: React.FC<OutroProps> = ({ title, subtitle, ctaText }) => {
   const frame = useCurrentFrame();
   const { durationInFrames } = useVideoConfig();
 
@@ -17,18 +22,15 @@ export const Outro: React.FC = () => {
         opacity: fadeInOut(frame, durationInFrames, 15, 25),
       }}
     >
-      <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-        <Img src={staticFile(brand.logo)} style={{ width: 48, height: 48 }} />
-        <div
-          style={{
-            fontSize: 44,
-            fontWeight: 600,
-            fontFamily: fontHeading,
-            color: colors.text,
-          }}
-        >
-          {brand.name}
-        </div>
+      <div
+        style={{
+          fontSize: 44,
+          fontWeight: 600,
+          fontFamily: fontHeading,
+          color: colors.text,
+        }}
+      >
+        {title}
       </div>
       <div
         style={{
@@ -39,7 +41,21 @@ export const Outro: React.FC = () => {
           opacity: fadeIn(frame, 20, 15),
         }}
       >
-        {brand.tagline}
+        {subtitle}
+      </div>
+      <div
+        style={{
+          fontSize: 16,
+          fontFamily: fontHeading,
+          fontWeight: 500,
+          color: colors.primary,
+          marginTop: 24,
+          opacity: fadeIn(frame, 35, 15),
+          padding: "10px 24px",
+          borderRadius: 8,
+        }}
+      >
+        {ctaText}
       </div>
     </AbsoluteFill>
   );

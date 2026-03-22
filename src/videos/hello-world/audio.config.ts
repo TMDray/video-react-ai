@@ -20,6 +20,7 @@ export const audioConfig: AudioConfig = {
     { sfx: "whoosh", frame: 313, durationInFrames: 20, volume: 0.25 },
   ],
   music: {
+    source: "file",
     src: "audio/music/ambient.wav",
     volume: 0.08,
   },

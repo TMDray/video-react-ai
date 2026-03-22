@@ -8,14 +8,16 @@ import { config } from "./config";
 import { Intro } from "./scenes/Intro";
 import { Main } from "./scenes/Main";
 import { Outro } from "./scenes/Outro";
+import type { HelloWorldProps } from "./schema";
 
 /**
  * hello-world — 15s (450 frames @ 30fps)
  *
  * Uses TransitionSeries for smooth scene transitions.
  * Audio is declared in audio.config.ts and rendered via SfxLayer/MusicLayer.
+ * All text content is parameterized via HelloWorldProps for CMS integration.
  */
-export const HelloWorldComposition: React.FC = () => {
+export const HelloWorldComposition: React.FC<HelloWorldProps> = (props) => {
   const t = config.transitionDuration;
 
   return (
@@ -23,7 +25,7 @@ export const HelloWorldComposition: React.FC = () => {
       {/* ═══ SCENES with transitions ═══ */}
       <TransitionSeries>
         <TransitionSeries.Sequence durationInFrames={config.scenes.intro.duration}>
-          <Intro />
+          <Intro brandName={props.brandName} tagline={props.tagline} logoUrl={props.logoUrl} />
         </TransitionSeries.Sequence>
 
         <TransitionSeries.Transition
@@ -32,7 +34,7 @@ export const HelloWorldComposition: React.FC = () => {
         />
 
         <TransitionSeries.Sequence durationInFrames={config.scenes.main.duration}>
-          <Main />
+          <Main headline={props.headline} />
         </TransitionSeries.Sequence>
 
         <TransitionSeries.Transition
@@ -41,7 +43,7 @@ export const HelloWorldComposition: React.FC = () => {
         />
 
         <TransitionSeries.Sequence durationInFrames={config.scenes.outro.duration}>
-          <Outro />
+          <Outro brandName={props.brandName} tagline={props.tagline} ctaText={props.ctaText} logoUrl={props.logoUrl} />
         </TransitionSeries.Sequence>
       </TransitionSeries>
 

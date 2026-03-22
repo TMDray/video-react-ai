@@ -6,12 +6,17 @@ import {
   useVideoConfig,
   staticFile,
 } from "remotion";
-import { brand } from "../../../brand.config";
 import { colors, primaryGlow } from "../../../lib/colors";
 import { fontHeading } from "../../../lib/fonts";
 import { fadeIn, glowPulse } from "../../../lib/animations";
 
-export const Intro: React.FC = () => {
+interface IntroProps {
+  brandName: string;
+  tagline: string;
+  logoUrl: string;
+}
+
+export const Intro: React.FC<IntroProps> = ({ brandName, tagline, logoUrl }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
@@ -40,7 +45,7 @@ export const Intro: React.FC = () => {
         }}
       >
         <Img
-          src={staticFile(brand.logo)}
+          src={staticFile(logoUrl)}
           style={{ width: 140, height: 140 }}
         />
       </div>
@@ -55,7 +60,7 @@ export const Intro: React.FC = () => {
           opacity: fadeIn(frame, 15, 10),
         }}
       >
-        {brand.name}
+        {brandName}
       </div>
       <div
         style={{
@@ -68,7 +73,7 @@ export const Intro: React.FC = () => {
           opacity: fadeIn(frame, 25, 10),
         }}
       >
-        {brand.tagline}
+        {tagline}
       </div>
     </AbsoluteFill>
   );

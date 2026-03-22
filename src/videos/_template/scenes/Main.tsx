@@ -4,7 +4,11 @@ import { fontBody } from "../../../lib/fonts";
 import { fadeIn } from "../../../lib/animations";
 import { useFormat } from "../../../lib/useFormat";
 
-export const Main: React.FC = () => {
+interface MainProps {
+  body: string;
+}
+
+export const Main: React.FC<MainProps> = ({ body }) => {
   const frame = useCurrentFrame();
   const { padding } = useFormat();
 
@@ -26,7 +30,7 @@ export const Main: React.FC = () => {
           textAlign: "center",
         }}
       >
-        Your main content goes here.
+        {body}
       </div>
     </AbsoluteFill>
   );

@@ -1,4 +1,5 @@
 import type React from "react";
+import type { ZodTypeAny } from "zod";
 
 export type FormatId = "landscape" | "linkedin" | "short";
 
@@ -12,11 +13,12 @@ export interface FormatConfig {
 export interface VideoEntry {
   id: string;
   title: string;
-  component: React.FC;
+  component: React.FC<any>;
   durationInFrames: number;
   fps: number;
   formats?: FormatId[];
   defaultProps?: Record<string, unknown>;
+  schema?: ZodTypeAny;
 }
 
 export interface SfxCue {
@@ -50,7 +52,9 @@ export interface AudioConfig {
   };
   sfx: SfxCue[];
   music?: {
-    /** Path relative to public/ */
+    /** Source: "file" (path relative to public/) or "jamendo" (track ID) */
+    source: "file" | "jamendo";
+    /** File path (public/audio/music/...) or Jamendo track ID */
     src: string;
     volume: number;
   };

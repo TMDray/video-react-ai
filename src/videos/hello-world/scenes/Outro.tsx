@@ -5,12 +5,23 @@ import {
   useVideoConfig,
   staticFile,
 } from "remotion";
-import { brand } from "../../../brand.config";
 import { colors, primaryGlow } from "../../../lib/colors";
 import { fontHeading } from "../../../lib/fonts";
 import { fadeInOut, fadeIn } from "../../../lib/animations";
 
-export const Outro: React.FC = () => {
+interface OutroProps {
+  brandName: string;
+  tagline: string;
+  ctaText: string;
+  logoUrl: string;
+}
+
+export const Outro: React.FC<OutroProps> = ({
+  brandName,
+  tagline,
+  ctaText,
+  logoUrl,
+}) => {
   const frame = useCurrentFrame();
   const { durationInFrames } = useVideoConfig();
 
@@ -25,7 +36,7 @@ export const Outro: React.FC = () => {
     >
       <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
         <Img
-          src={staticFile(brand.logo)}
+          src={staticFile(logoUrl)}
           style={{ width: 56, height: 56 }}
         />
         <div
@@ -37,7 +48,7 @@ export const Outro: React.FC = () => {
             letterSpacing: "0.05em",
           }}
         >
-          {brand.name}
+          {brandName}
         </div>
       </div>
 
@@ -51,7 +62,7 @@ export const Outro: React.FC = () => {
           opacity: fadeIn(frame, 20, 15),
         }}
       >
-        {brand.tagline}
+        {tagline}
       </div>
 
       <div
@@ -68,7 +79,7 @@ export const Outro: React.FC = () => {
           boxShadow: `0 0 20px ${primaryGlow(0.2)}`,
         }}
       >
-        {brand.cta.text}
+        {ctaText}
       </div>
     </AbsoluteFill>
   );

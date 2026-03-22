@@ -23,6 +23,7 @@ export const Root: React.FC = () => {
               width={format.width}
               height={format.height}
               defaultProps={video.defaultProps}
+              {...(video.schema ? { schema: video.schema } : {})}
             />
           );
         });

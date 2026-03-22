@@ -13,7 +13,9 @@ export const audioConfig: AudioConfig = {
     // { sfx: "whoosh", frame: 103, durationInFrames: 20, volume: 0.3 },
   ],
   music: {
+    source: "file",
     src: "audio/music/ambient.wav",
     volume: 0.08,
+    // Or use Jamendo: source: "jamendo", src: "track-id"
   },
 };

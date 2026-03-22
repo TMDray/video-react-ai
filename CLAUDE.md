@@ -51,6 +51,125 @@ Each video folder contains:
 - `Composition.tsx` — TransitionSeries assembling scenes + audio layers
 - `scenes/` — Individual scene components (Intro.tsx, Main.tsx, Outro.tsx)
 - `components/` — Video-specific reusable components
+- `schema.ts` — (optional) Zod schema defining input props for CMS integration
+
+### CMS + Input Props (Data-Driven Videos)
+
+The template supports **data-driven videos** — one composition can generate multiple videos with different content via input props. This enables CMS integration and batch video generation.
+
+#### Creating a data-driven composition
+
+**1. Define a Zod schema in `schema.ts`:**
+
+```ts
+// src/videos/my-video/schema.ts
+import { z } from "zod";
+
+export const myVideoSchema = z.object({
+  title: z.string().default("Video Title"),
+  subtitle: z.string().default("Subtitle"),
+  headline: z.string().default("Main headline"),
+  ctaText: z.string().default("Learn More"),
+  logoUrl: z.string().default("logo-placeholder.svg"),
+});
+
+export type MyVideoProps = z.infer<typeof myVideoSchema>;
+```
+
+**2. Update Composition to accept props:**
+
+```tsx
+// src/videos/my-video/Composition.tsx
+import type { MyVideoProps } from "./schema";
+
+export const MyVideoComposition: React.FC<MyVideoProps> = (props) => {
+  return (
+    <AbsoluteFill>
+      <Intro title={props.title} logoUrl={props.logoUrl} />
+      <Main headline={props.headline} />
+      <Outro title={props.title} subtitle={props.subtitle} ctaText={props.ctaText} />
+    </AbsoluteFill>
+  );
+};
+```
+
+**3. Update scenes to accept props:**
+
+```tsx
+// src/videos/my-video/scenes/Intro.tsx
+interface IntroProps {
+  title: string;
+  logoUrl: string;
+}
+
+export const Intro: React.FC<IntroProps> = ({ title, logoUrl }) => {
+  return (
+    <AbsoluteFill>
+      <Img src={staticFile(logoUrl)} />
+      <div>{title}</div>
+    </AbsoluteFill>
+  );
+};
+```
+
+**4. Register in `registry.ts` with schema + defaultProps:**
+
+```ts
+// src/videos/registry.ts
+import { myVideoSchema } from "./my-video/schema";
+
+{
+  id: "my-video",
+  title: "My Video",
+  component: MyVideoComposition,
+  schema: myVideoSchema,
+  defaultProps: myVideoSchema.parse({
+    title: brand.name,
+    ctaText: brand.cta.text,
+    // ... other defaults
+  }),
+  durationInFrames: 450,
+  fps: 30,
+}
+```
+
+#### Using the data-driven video
+
+**Studio UI (visual editing):**
+```bash
+npm run studio
+# Open "my-video-landscape" → see editable Props panel on the right
+```
+
+**CLI (override props):**
+```bash
+remotion render src/index.ts my-video-landscape \
+  --props '{"title":"Custom Title","ctaText":"Buy Now"}' \
+  out/my-video.mp4
+```
+
+**Multiple variants from one composition:**
+```ts
+// Register same composition with different data
+{
+  id: "variant-a",
+  component: MyVideoComposition,
+  schema: myVideoSchema,
+  defaultProps: myVideoSchema.parse({ title: "Product A", ... }),
+  ...
+},
+{
+  id: "variant-b",
+  component: MyVideoComposition,
+  schema: myVideoSchema,
+  defaultProps: myVideoSchema.parse({ title: "Product B", ... }),
+  ...
+},
+```
+
+**Key examples:**
+- `hello-world` — refactored to use input props (`brandName`, `tagline`, `headline`, `ctaText`, `logoUrl`)
+- `_template` — generic template accepting `title`, `subtitle`, `body`, `ctaText`, `logoUrl`
 
 ## Conventions
 
@@ -336,6 +455,82 @@ import { Audio, staticFile } from "remotion";
 - ~6 credits par generation (2 tracks par requete)
 - Cle API payante requise (pas de tier gratuit)
 - Les tracks generees sont des MP3 ; conversion WAV disponible
+
+## Royalty-Free Music (Jamendo MCP)
+
+Le serveur MCP Jamendo est inclus dans `.mcp/jamendo/` pour rechercher et telecharger de la musique libre de droit.
+
+### Configuration requise
+
+Ajouter la cle API dans `.env` :
+
+```
+JAMENDO_API_KEY=xxx        # Gratuit sur https://www.jamendo.com/developers
+```
+
+Config MCP (`.claude/settings.json`) :
+
+```json
+{
+  "mcpServers": {
+    "jamendo": {
+      "command": "python",
+      "args": [".mcp/jamendo/server.py"],
+      "env": {
+        "JAMENDO_API_KEY": "${JAMENDO_API_KEY}"
+      }
+    }
+  }
+}
+```
+
+### Outils disponibles
+
+- `search_music` — Chercher de la musique par mots-cles, genre ou tags
+  - `query` : mots-cles (ex: "ambient", "cinematic", "upbeat")
+  - `genre` : filtre par genre (ex: "electronic", "orchestral")
+  - `tags` : tags separes par virgule
+  - `limit` : nombre de resultats (defaut: 10, max: 100)
+- `get_track_info` — Infos detaillees sur un track (metadata, duree, license)
+- `download_track` — URL de telechargement + metadata pour un track
+
+### Utilisation dans une scene Remotion
+
+```tsx
+import { MusicLayer } from "@/lib/audio";
+
+// Apres avoir telecharge la musique dans public/audio/music/
+<MusicLayer src="ambient-cinematic" source="jamendo" volume={0.1} />
+
+// Ou en local file
+<MusicLayer src="audio/music/background.mp3" source="file" volume={0.1} />
+```
+
+Dans `audio.config.ts` :
+
+```typescript
+music: {
+  source: "jamendo",
+  src: "track-id",  // ID Jamendo ou nom de fichier
+  volume: 0.1
+}
+```
+
+### Workflow type
+
+1. Chercher : `search_music` avec query/genre (ex: "cinematic background")
+2. Recuperer l'ID du track qui convient
+3. Telecharger : `download_track` avec le track ID
+4. Sauvegarder le MP3 dans `public/audio/music/`
+5. Reference dans `audio.config.ts` avec le nom de fichier
+6. Utiliser `<MusicLayer>` dans la composition
+
+### Limites
+
+- Musique Creative Commons libre
+- Attribution requise (lien vers le track Jamendo)
+- 100 requetes/jour en tier gratuit
+- Telechargement automatique en MP3 320kbps
 
 ## Lottie Animations (LottieFiles MCP)
 

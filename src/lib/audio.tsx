@@ -30,12 +30,16 @@ export const SfxLayer: React.FC<{ cues: SfxCue[] }> = ({ cues }) => {
 
 /**
  * Background music with configurable volume.
+ * Supports both local files (path relative to public/) and Jamendo tracks (filename in public/audio/music/).
  */
 export const MusicLayer: React.FC<{
   src: string;
+  source?: "file" | "jamendo";
   volume?: number;
-}> = ({ src, volume = 0.08 }) => {
-  return <Audio src={staticFile(src)} volume={volume} />;
+}> = ({ src, source = "file", volume = 0.08 }) => {
+  const musicPath =
+    source === "jamendo" ? `audio/music/${src}.mp3` : src;
+  return <Audio src={staticFile(musicPath)} volume={volume} />;
 };
 
 /**

@@ -5,7 +5,11 @@ import { fadeIn, scaleIn } from "../../../lib/animations";
 import { useFormat } from "../../../lib/useFormat";
 import { FeatureCard } from "../components/FeatureCard";
 
-export const Main: React.FC = () => {
+interface MainProps {
+  headline: string;
+}
+
+export const Main: React.FC<MainProps> = ({ headline }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const { isPortrait, padding } = useFormat();
@@ -33,7 +37,7 @@ export const Main: React.FC = () => {
           marginBottom: 40,
         }}
       >
-        Build videos with code
+        {headline}
       </div>
 
       <div
