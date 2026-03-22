@@ -1,24 +1,24 @@
 {
 	"mcpServers": {
 		"stocky": {
-			"command": "python",
-			"args": [".mcp/stocky/stocky_mcp.py"],
+			"command": "python3",
+			"args": ["/Users/tanguy/dev/projets/remotion-video-template/.mcp/stocky/stocky_mcp.py"],
 			"env": {
 				"PEXELS_API_KEY": "${PEXELS_API_KEY}",
 				"UNSPLASH_ACCESS_KEY": "${UNSPLASH_ACCESS_KEY}"
 			}
 		},
 		"suno": {
-			"command": "python",
-			"args": [".mcp/suno/server.py"],
+			"command": "python3",
+			"args": ["/Users/tanguy/dev/projets/remotion-video-template/.mcp/suno/server.py"],
 			"env": {
 				"SUNO_API_KEY": "${SUNO_API_KEY}",
 				"SUNO_API_BASE_URL": "https://api.sunoapi.org"
 			}
 		},
 		"jamendo": {
-			"command": "python",
-			"args": [".mcp/jamendo/server.py"],
+			"command": "python3",
+			"args": ["/Users/tanguy/dev/projets/remotion-video-template/.mcp/jamendo/server.py"],
 			"env": {
 				"JAMENDO_API_KEY": "${JAMENDO_API_KEY}"
 			}
