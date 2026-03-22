@@ -7,9 +7,19 @@ interface IntroProps {
   brandName: string;
   tagline: string;
   logoUrl: string;
+  logoX?: number;
+  logoY?: number;
+  logoScale?: number;
 }
 
-export const Intro: React.FC<IntroProps> = ({ brandName, tagline, logoUrl }) => {
+export const Intro: React.FC<IntroProps> = ({
+  brandName,
+  tagline,
+  logoUrl,
+  logoX = 0,
+  logoY = 0,
+  logoScale = 1,
+}) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
@@ -37,7 +47,16 @@ export const Intro: React.FC<IntroProps> = ({ brandName, tagline, logoUrl }) => 
           alignItems: "center",
         }}
       >
-        <Img src={staticFile(logoUrl)} style={{ width: 140, height: 140 }} />
+        {logoUrl && (
+          <div
+            style={{
+              transform: `translate(${logoX * 200}px, ${logoY * 200}px) scale(${logoScale})`,
+              transformOrigin: "center",
+            }}
+          >
+            <Img src={staticFile(logoUrl)} style={{ width: 140, height: 140 }} />
+          </div>
+        )}
       </div>
       <div
         style={{

@@ -24,7 +24,7 @@ export const Outro: React.FC<OutroProps> = ({ brandName, tagline, ctaText, logoU
       }}
     >
       <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-        <Img src={staticFile(logoUrl)} style={{ width: 56, height: 56 }} />
+        {logoUrl && <Img src={staticFile(logoUrl)} style={{ width: 56, height: 56 }} />}
         <div
           style={{
             fontSize: 48,

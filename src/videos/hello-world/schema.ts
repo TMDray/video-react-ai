@@ -10,6 +10,9 @@ export const helloWorldSchema = z.object({
   tagline: z.string().default("Your tagline here"),
   logoUrl: z.string().default("logo-placeholder.svg"),
   ctaText: z.string().default("Get Started"),
+  logoX: z.number().min(-1).max(1).default(0),
+  logoY: z.number().min(-1).max(1).default(0),
+  logoScale: z.number().min(0.1).max(3).default(1),
 });
 
 export type HelloWorldProps = z.infer<typeof helloWorldSchema>;

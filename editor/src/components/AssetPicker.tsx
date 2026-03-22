@@ -5,13 +5,17 @@ import styles from "./AssetPicker.module.css";
 interface AssetPickerProps {
   onSelect: (asset: string) => void;
   onClose: () => void;
+  currentValue?: string;
 }
 
 const IMAGE_EXTENSIONS = [".svg", ".png", ".jpg", ".jpeg", ".webp", ".gif"];
 const VIDEO_EXTENSIONS = [".mp4", ".webm", ".mov"];
 const AUDIO_EXTENSIONS = [".mp3", ".wav", ".m4a", ".ogg"];
 
-export const AssetPicker: React.FC<AssetPickerProps> = ({ onSelect, onClose }) => {
+const isImage = (assetPath: string): boolean =>
+  IMAGE_EXTENSIONS.some((ext) => assetPath.toLowerCase().endsWith(ext));
+
+export const AssetPicker: React.FC<AssetPickerProps> = ({ onSelect, onClose, currentValue }) => {
   const { assets, loading, error } = usePublicAssets();
   const [filter, setFilter] = useState("all");
   const [uploading, setUploading] = useState(false);
@@ -125,13 +129,25 @@ export const AssetPicker: React.FC<AssetPickerProps> = ({ onSelect, onClose }) =
             {filteredAssets.map((asset) => (
               <button
                 key={asset}
-                className={styles.assetItem}
+                className={`${styles.assetItem} ${currentValue === asset ? styles.selected : ""}`}
                 onClick={() => {
                   onSelect(asset);
                 }}
               >
-                {asset.split("/").pop()}
-                <span className={styles.path}>{asset}</span>
+                {isImage(asset) && (
+                  <img
+                    src={`/${asset}`}
+                    alt={asset}
+                    className={styles.thumbnail}
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).style.display = "none";
+                    }}
+                  />
+                )}
+                <div className={styles.assetInfo}>
+                  <div className={styles.assetName}>{asset.split("/").pop()}</div>
+                  <span className={styles.path}>{asset}</span>
+                </div>
               </button>
             ))}
           </div>

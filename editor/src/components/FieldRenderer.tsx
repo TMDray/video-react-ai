@@ -6,6 +6,7 @@ import { NumberField } from "./fields/NumberField";
 import { BooleanField } from "./fields/BooleanField";
 import { EnumField } from "./fields/EnumField";
 import { AssetField } from "./fields/AssetField";
+import { RangeField } from "./fields/RangeField";
 
 interface FieldRendererProps {
   field: FieldDescriptor;
@@ -28,6 +29,8 @@ export const FieldRenderer: React.FC<FieldRendererProps> = ({
       return <StringField field={field} control={control} error={error} />;
     case "number":
       return <NumberField field={field} control={control} error={error} />;
+    case "range":
+      return <RangeField field={field} control={control} error={error} />;
     case "boolean":
       return <BooleanField field={field} control={control} error={error} />;
     case "enum":

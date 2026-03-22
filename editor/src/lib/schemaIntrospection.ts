@@ -1,6 +1,6 @@
 import { ZodTypeAny, ZodObject } from "zod";
 
-export type FieldType = "string" | "number" | "boolean" | "enum" | "asset";
+export type FieldType = "string" | "number" | "boolean" | "enum" | "asset" | "range";
 
 export interface FieldDescriptor {
   key: string;
@@ -9,6 +9,8 @@ export interface FieldDescriptor {
   defaultValue: unknown;
   options?: string[];
   isAsset: boolean;
+  min?: number;
+  max?: number;
 }
 
 function humanizeKey(key: string): string {
@@ -52,12 +54,31 @@ function introspectField(key: string, field: ZodTypeAny): FieldDescriptor | null
 
   // Number
   if (innerDef.type === "number") {
+    // Extract min/max constraints
+    let min: number | undefined;
+    let max: number | undefined;
+
+    if (innerDef.checks) {
+      for (const check of innerDef.checks) {
+        if (check.kind === "min") {
+          min = check.value;
+        } else if (check.kind === "max") {
+          max = check.value;
+        }
+      }
+    }
+
+    // Use "range" type if both min and max are defined
+    const hasRange = min !== undefined && max !== undefined;
+
     return {
       key,
       label: humanizeKey(key),
-      type: "number",
+      type: hasRange ? "range" : "number",
       defaultValue,
       isAsset: false,
+      min,
+      max,
     };
   }
 

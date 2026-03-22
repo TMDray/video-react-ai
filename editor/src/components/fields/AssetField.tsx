@@ -42,6 +42,7 @@ export const AssetField: React.FC<AssetFieldProps> = ({ field, control, error })
           {error && <span className={styles.errorText}>{String(error.message)}</span>}
           {showPicker && (
             <AssetPicker
+              currentValue={String(fieldProps.value || "")}
               onSelect={(asset) => {
                 fieldProps.onChange(asset);
                 setShowPicker(false);
