@@ -1,5 +1,30 @@
 # Remotion Video Template
 
+## Documentation Structure
+
+This project has **layered documentation**. Choose your guide based on what you need:
+
+| Document                                                 | Audience            | Content                                                        |
+| -------------------------------------------------------- | ------------------- | -------------------------------------------------------------- |
+| **[README.md](./README.md)**                             | Everyone            | Project overview, setup, basic usage                           |
+| **[CLAUDE.md](./CLAUDE.md)** (this file)                 | Developers          | Quick reference + core patterns                                |
+| **[TESTING.md](./TESTING.md)**                           | QA / Developers     | How to write and run tests for videos                          |
+| **[GUIDE.md](./GUIDE.md)**                               | Non-technical users | "How to create videos" (no coding required)                    |
+| **[docs/ARCHITECTURE.md](./docs/ARCHITECTURE.md)**       | Advanced developers | Deep dive into system design                                   |
+| **[docs/CMS-INPUT-PROPS.md](./docs/CMS-INPUT-PROPS.md)** | Advanced developers | Data-driven video patterns (batch generation, CMS integration) |
+| **[editor/USER_GUIDE.md](./editor/USER_GUIDE.md)**       | UI users            | Props Editor visual tool reference                             |
+
+**Legend:**
+
+- 🚀 Start here: README.md → GUIDE.md
+- 🔨 Building videos: CLAUDE.md (this file)
+- ✅ Writing tests: TESTING.md
+- 🏗️ System deep-dive: docs/ARCHITECTURE.md
+- 🔌 CMS integration: docs/CMS-INPUT-PROPS.md
+- 🎨 Visual editor: editor/USER_GUIDE.md
+
+---
+
 ## Quick Reference
 
 - Entry: `src/index.ts` → `src/Root.tsx` → `src/videos/registry.ts`
@@ -9,6 +34,7 @@
 - Render: `npm run render -- <composition-id> out/<name>.mp4`
 - Generate audio: `npm run generate:audio`
 - Generate voiceover: `npm run generate:voiceover -- <slug>`
+- **Run tests:** `npm run test` ([see TESTING.md](./TESTING.md))
 
 ## Architecture
 
