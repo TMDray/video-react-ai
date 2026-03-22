@@ -37,6 +37,7 @@ src/
 ### How Root.tsx works
 
 Root.tsx iterates `registry × formats` and auto-generates all compositions:
+
 - `hello-world-landscape`
 - `hello-world-linkedin`
 - `hello-world-short`
@@ -46,6 +47,7 @@ You never edit Root.tsx manually. Add videos via `registry.ts`.
 ### Video structure
 
 Each video folder contains:
+
 - `config.ts` — fps, durationInFrames, scene timings
 - `audio.config.ts` — voiceover segments + SFX cue sheet
 - `Composition.tsx` — TransitionSeries assembling scenes + audio layers
@@ -136,12 +138,14 @@ import { myVideoSchema } from "./my-video/schema";
 #### Using the data-driven video
 
 **Studio UI (visual editing):**
+
 ```bash
 npm run studio
 # Open "my-video-landscape" → see editable Props panel on the right
 ```
 
 **CLI (override props):**
+
 ```bash
 remotion render src/index.ts my-video-landscape \
   --props '{"title":"Custom Title","ctaText":"Buy Now"}' \
@@ -149,6 +153,7 @@ remotion render src/index.ts my-video-landscape \
 ```
 
 **Multiple variants from one composition:**
+
 ```ts
 // Register same composition with different data
 {
@@ -168,6 +173,7 @@ remotion render src/index.ts my-video-landscape \
 ```
 
 **Key examples:**
+
 - `hello-world` — refactored to use input props (`brandName`, `tagline`, `headline`, `ctaText`, `logoUrl`)
 - `_template` — generic template accepting `title`, `subtitle`, `body`, `ctaText`, `logoUrl`
 
@@ -185,13 +191,13 @@ remotion render src/index.ts my-video-landscape \
 
 ```tsx
 // Fade in over 10 frames starting at frame 0
-opacity: fadeIn(frame)
+opacity: fadeIn(frame);
 
 // Fade in starting at frame 15 over 10 frames
-opacity: fadeIn(frame, 15, 10)
+opacity: fadeIn(frame, 15, 10);
 
 // Full scene lifecycle (fade in + hold + fade out)
-opacity: fadeInOut(frame, durationInFrames)
+opacity: fadeInOut(frame, durationInFrames);
 
 // Spring-based scale entrance
 const scale = scaleIn(frame, fps, "snappy");
@@ -200,7 +206,7 @@ const scale = scaleIn(frame, fps, "snappy");
 const { translateX, translateY } = slideIn(frame, fps, "up", "gentle");
 
 // Pulsing glow for logos
-filter: `drop-shadow(0 0 ${glowPulse(frame)}px ${primaryGlow(0.5)})`
+filter: `drop-shadow(0 0 ${glowPulse(frame)}px ${primaryGlow(0.5)})`;
 ```
 
 Spring presets: `gentle`, `snappy`, `bouncy`, `heavy`
@@ -215,14 +221,11 @@ import { fadePresentation, slidePresentation, springTiming } from "@/lib/transit
   <TransitionSeries.Sequence durationInFrames={120}>
     <SceneA />
   </TransitionSeries.Sequence>
-  <TransitionSeries.Transition
-    presentation={fadePresentation()}
-    timing={springTiming(15)}
-  />
+  <TransitionSeries.Transition presentation={fadePresentation()} timing={springTiming(15)} />
   <TransitionSeries.Sequence durationInFrames={200}>
     <SceneB />
   </TransitionSeries.Sequence>
-</TransitionSeries>
+</TransitionSeries>;
 ```
 
 Note: transition frames overlap — total duration = sum of scenes - sum of transitions.
@@ -235,7 +238,7 @@ SFX are declared in `audio.config.ts`, NOT inline in Composition.tsx:
 sfx: [
   { sfx: "whoosh", frame: 103, durationInFrames: 20, volume: 0.3 },
   { sfx: "success-ding", frame: 200, durationInFrames: 30, volume: 0.4 },
-]
+];
 ```
 
 Rendered via `<SfxLayer cues={audioConfig.sfx} />`.
@@ -354,6 +357,7 @@ import { SubtitleLayer } from "@/lib/captions";
 ### Generating SRT from voiceover
 
 After generating voiceover audio with `npm run generate:voiceover`, create matching SRT files:
+
 1. Use a transcription tool (Whisper, AssemblyAI, etc.) on the generated MP3
 2. Export as `.srt` format
 3. Place in `public/subs/<slug>/` directory
@@ -439,7 +443,7 @@ Config MCP (`.claude/settings.json`) :
 import { Audio, staticFile } from "remotion";
 
 // Apres avoir telecharge le MP3/WAV genere dans public/audio/music/
-<Audio src={staticFile("audio/music/epic-theme.wav")} volume={0.3} />
+<Audio src={staticFile("audio/music/epic-theme.wav")} volume={0.3} />;
 ```
 
 ### Workflow type
@@ -532,53 +536,37 @@ music: {
 - 100 requetes/jour en tier gratuit
 - Telechargement automatique en MP3 320kbps
 
-## Lottie Animations (LottieFiles MCP)
+## Lottie Animations
 
-Animations vectorielles (icones animees, transitions, confettis, loaders) via LottieFiles.
+Animations vectorielles (icones animees, transitions, confettis, loaders) via le package officiel `@remotion/lottie`.
 
-### Configuration
+### Trouver une animation
 
-MCP via npx (pas de cle API requise) :
-
-```json
-{
-  "mcpServers": {
-    "lottiefiles": {
-      "command": "npx",
-      "args": ["-y", "mcp-server-lottiefiles"]
-    }
-  }
-}
-```
-
-### Outils disponibles
-
-- `search_animations` — Rechercher des animations par mots-cles (ex: "confetti", "loading", "checkmark")
-- `get_animation_details` — Metadata complete d'une animation (dimensions, duree, auteur)
-- `get_popular_animations` — Animations tendance de la semaine
+1. Aller sur [lottiefiles.com](https://lottiefiles.com) — chercher par mots-cles (ex: "confetti", "loading", "checkmark")
+2. Telecharger le fichier `.json` dans `public/lottie/`
 
 ### Utilisation dans une scene Remotion
 
 ```tsx
 import { LottieAsset } from "@/lib/lottie";
 
-// Apres avoir telecharge le JSON dans public/lottie/
+// Basique
 <LottieAsset src="lottie/confetti.json" />
 
 // Avec options
 <LottieAsset src="lottie/check.json" style={{ width: 200 }} loop playbackRate={1.5} />
 ```
 
-### Workflow type
+### Comportement
 
-1. Chercher : `search_animations` avec mots-cles
-2. Telecharger le fichier `.json` dans `public/lottie/`
-3. Utiliser `<LottieAsset>` dans la scene — synchronise automatiquement avec la timeline Remotion
+- Frame-accurate : synchronise avec la timeline Remotion via `delayRender`/`continueRender`
+- `loop` : boucle l'animation (defaut: false)
+- `playbackRate` : accelerer/ralentir l'animation (defaut: 1)
 
 ### Limites
 
-- API non-officielle LottieFiles (pas de cle, peut etre instable)
-- Animations gratuites uniquement
+- Fichiers JSON Lottie peuvent etre volumineux (> 1MB) — verifier la taille avant usage
+- Animations gratuites sur lottiefiles.com ; animations premium necessitent un compte payant
 
 ## Video Scripting & Retention
 
@@ -606,23 +594,25 @@ Ces regles s'appliquent a TOUT type de video (marketing, divertissement, educati
 
 ### Hooks par type
 
-| Type | Marketing | Divertissement |
-|------|-----------|----------------|
-| Question | "Encore bloque sur X ?" | "Vous saviez que X ?" |
-| Stat choc | "80% des Y font Z" | "En 2024, X personnes ont..." |
-| Contrarian | "Arretez de faire X" | "Tout le monde se trompe sur X" |
-| Resultat d'abord | Montrer le before/after | Montrer la punchline puis le contexte |
-| Visuel fort | Pattern interrupt frame 1 | Image surprenante ou absurde |
-| Curiosite | "Voici comment X en Y secondes" | "Attendez la fin..." |
+| Type             | Marketing                       | Divertissement                        |
+| ---------------- | ------------------------------- | ------------------------------------- |
+| Question         | "Encore bloque sur X ?"         | "Vous saviez que X ?"                 |
+| Stat choc        | "80% des Y font Z"              | "En 2024, X personnes ont..."         |
+| Contrarian       | "Arretez de faire X"            | "Tout le monde se trompe sur X"       |
+| Resultat d'abord | Montrer le before/after         | Montrer la punchline puis le contexte |
+| Visuel fort      | Pattern interrupt frame 1       | Image surprenante ou absurde          |
+| Curiosite        | "Voici comment X en Y secondes" | "Attendez la fin..."                  |
 
 ### Frameworks narratifs
 
 **Marketing :**
+
 - **PAS** (Problem → Agitate → Solution) — demos produit, pain points
 - **BAB** (Before → After → Bridge) — transformations, SaaS
 - **AIDA** (Attention → Interest → Desire → Action) — marketing general
 
 **Divertissement :**
+
 - **Setup → Build → Payoff** — humour, storytelling, revelations
 - **HSO** (Hook → Story → Offer) — temoignages, brand storytelling
 - **Free** — structure libre
@@ -630,12 +620,14 @@ Ces regles s'appliquent a TOUT type de video (marketing, divertissement, educati
 ### Structure par duree
 
 **15 secondes** (~35-40 mots VO)
+
 - 0-2s : Hook (visuel + texte + VO alignes)
 - 2-12s : Message cle unique (1 seule idee)
 - 12-15s : CTA ou punchline
 - 2-3 cuts rapides
 
 **30 secondes** (~75-80 mots VO)
+
 - 0-3s : Hook
 - 3-10s : Probleme ou setup
 - 10-22s : Solution/demo ou build
@@ -644,6 +636,7 @@ Ces regles s'appliquent a TOUT type de video (marketing, divertissement, educati
 - Pattern interrupt toutes les 4-5s, re-engagement a 15s
 
 **60 secondes** (~150 mots VO)
+
 - 0-3s : Hook
 - 3-13s : Probleme/setup
 - 13-23s : Agiter/build
@@ -654,6 +647,7 @@ Ces regles s'appliquent a TOUT type de video (marketing, divertissement, educati
 - Musique : tension au debut, montee progressive, pic a 30-45s
 
 **90 secondes** (~225 mots VO)
+
 - 0-3s : Hook
 - 3-13s : Contexte/setup
 - 13-28s : Probleme/build detaille
@@ -665,21 +659,21 @@ Ces regles s'appliquent a TOUT type de video (marketing, divertissement, educati
 
 ### Plateforme
 
-| Plateforme | Duree optimale | Ton | Format |
-|------------|---------------|-----|--------|
-| LinkedIn | 15-60s | Pro, educatif | 1:1 ou 9:16 |
-| TikTok/Reels | 15-34s | Direct, dynamique | 9:16 |
-| YouTube Shorts | 15-35s | Valeur immediate | 9:16 |
-| YouTube | 5-10 min | Approfondi | 16:9 |
+| Plateforme     | Duree optimale | Ton               | Format      |
+| -------------- | -------------- | ----------------- | ----------- |
+| LinkedIn       | 15-60s         | Pro, educatif     | 1:1 ou 9:16 |
+| TikTok/Reels   | 15-34s         | Direct, dynamique | 9:16        |
+| YouTube Shorts | 15-35s         | Valeur immediate  | 9:16        |
+| YouTube        | 5-10 min       | Approfondi        | 16:9        |
 
 ### Musique (BPM selon le ton)
 
-| Ton | BPM | Usage |
-|-----|-----|-------|
-| Calme, confiance | 60-80 | Temoignages, thought leadership |
-| Corporate, focus | 80-100 | Explainers, tutoriels |
-| Energique, demo | 120-140 | Lancements, produits |
-| Intense, urgence | 140-180 | Ads rapides, action |
+| Ton              | BPM     | Usage                           |
+| ---------------- | ------- | ------------------------------- |
+| Calme, confiance | 60-80   | Temoignages, thought leadership |
+| Corporate, focus | 80-100  | Explainers, tutoriels           |
+| Energique, demo  | 120-140 | Lancements, produits            |
+| Intense, urgence | 140-180 | Ads rapides, action             |
 
 ### CTA
 

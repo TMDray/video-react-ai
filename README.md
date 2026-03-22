@@ -1,7 +1,7 @@
 # Remotion Video Template
 
 Template pour creer des videos animees professionnelles avec du code.
-Construit avec Remotion + React + Tailwind + ElevenLabs.
+Construit avec Remotion + React + ElevenLabs.
 
 ## Quick Start
 
@@ -89,17 +89,62 @@ scripts/
 
 Chaque video est automatiquement disponible en 3 formats :
 
-| Format | Dimensions | Usage |
-|--------|-----------|-------|
-| landscape | 1920x1080 | YouTube, site web |
-| linkedin | 1080x1350 | LinkedIn, Instagram |
-| short | 1080x1920 | TikTok, Reels, Shorts |
+| Format    | Dimensions | Usage                 |
+| --------- | ---------- | --------------------- |
+| landscape | 1920x1080  | YouTube, site web     |
+| linkedin  | 1080x1350  | LinkedIn, Instagram   |
+| short     | 1080x1920  | TikTok, Reels, Shorts |
+
+## Assets stock (images & vidéos)
+
+Le MCP Stocky est intégré pour chercher des images et vidéos libres de droits.
+
+### Images (Pexels + Unsplash)
+
+Ajouter dans `.env` :
+
+```
+PEXELS_API_KEY=xxx        # Gratuit sur pexels.com/api/
+UNSPLASH_ACCESS_KEY=xxx   # Gratuit sur unsplash.com/developers
+```
+
+Demander à Claude :
+
+```
+Cherche une image de bureau moderne pour le fond de la scène intro.
+```
+
+Les images sont téléchargées dans `public/images/` et utilisées via `staticFile()`.
+
+### Vidéos B-roll (Pexels)
+
+```
+Cherche une vidéo de 10-20s d'une réunion en bureau pour fond de scène.
+```
+
+Les vidéos sont téléchargées dans `public/videos/` et utilisées via `<OffthreadVideo>`.
+
+### Utilisation dans une scène
+
+```tsx
+import { Img, staticFile } from "remotion";
+import { OffthreadVideo } from "remotion";
+
+// Image
+<Img src={staticFile("images/office-bg.jpg")} style={{ width: "100%", height: "100%" }} />
+
+// Vidéo B-roll
+<OffthreadVideo src={staticFile("videos/meeting.mp4")} style={{ width: "100%", height: "100%" }} />
+```
 
 ## Tech stack
 
 - [Remotion](https://remotion.dev) v4 — React video framework
-- [Tailwind CSS](https://tailwindcss.com) v4 — Utility-first CSS
 - [@remotion/transitions](https://remotion.dev/docs/transitions) — Scene transitions
 - [@remotion/google-fonts](https://remotion.dev/docs/google-fonts) — Font loading
+- [@remotion/captions](https://remotion.dev/docs/captions) — TikTok-style subtitles
+- [@remotion/lottie](https://remotion.dev/docs/lottie) — Lottie animations
 - [ElevenLabs](https://elevenlabs.io) — AI voiceover generation
-- [Remotion Agent Skills](https://github.com/remotion-dev/skills) — AI-assisted development
+- [Pexels](https://pexels.com) / [Unsplash](https://unsplash.com) — Stock images & videos
+- [Suno](https://suno.com) / [Jamendo](https://jamendo.com) — AI & royalty-free music
+- [DeepL](https://deepl.com) — Subtitle translation
