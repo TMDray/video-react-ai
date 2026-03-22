@@ -6,6 +6,7 @@ export default [
 		route('/upload', 'routes/api/upload.ts'),
 		route('/progress', 'routes/api/progress.ts'),
 		route('/render', 'routes/api/render.ts'),
+		route('/render/download', 'routes/api/download.ts'),
 		route('/captions', 'routes/api/captions.ts'),
 		route('/fonts/:name', 'routes/api/font.ts'),
 	]),

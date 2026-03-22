@@ -13,11 +13,10 @@ import {
 	TIMEOUT_IN_SECONDS,
 } from '../../remotion/constants';
 import {Route} from './+types/progress';
+import {getLocalRenderProgress} from './local-render-store';
 
 export const action = async ({request}: Route.ActionArgs) => {
 	try {
-		const serverEnv = requireServerEnv();
-
 		const body = (await request.json()) as GetProgressPayload;
 
 		if (typeof body.bucketName !== 'string') {
@@ -28,6 +27,46 @@ export const action = async ({request}: Route.ActionArgs) => {
 			throw new Error('renderId is not set');
 		}
 
+		// Local render path
+		if (body.bucketName === 'local') {
+			const localProgress = getLocalRenderProgress(body.renderId);
+
+			if (!localProgress) {
+				const response: GetProgressResponse = {
+					type: 'error',
+					error: 'Render not found',
+				};
+				return Response.json(response);
+			}
+
+			if (localProgress.type === 'done') {
+				const response: GetProgressResponse = {
+					type: 'done',
+					outputFile: localProgress.outputFile,
+					outputSizeInBytes: localProgress.outputSizeInBytes,
+					outputName: localProgress.outputFile.split('/').pop() ?? 'video',
+				};
+				return Response.json(response);
+			}
+
+			if (localProgress.type === 'error') {
+				const response: GetProgressResponse = {
+					type: 'error',
+					error: localProgress.error,
+				};
+				return Response.json(response);
+			}
+
+			const response: GetProgressResponse = {
+				type: 'in-progress',
+				overallProgress: localProgress.overallProgress,
+			};
+			return Response.json(response);
+		}
+
+		// Lambda render path
+		const serverEnv = requireServerEnv();
+
 		const progress = await getRenderProgress({
 			bucketName: body.bucketName,
 			renderId: body.renderId,
@@ -37,7 +76,6 @@ export const action = async ({request}: Route.ActionArgs) => {
 				timeoutInSeconds: TIMEOUT_IN_SECONDS,
 			}),
 			region: serverEnv.REMOTION_AWS_REGION,
-			// Can enable in 4.0.222
 			skipLambdaInvocation: false,
 		});
 

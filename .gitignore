@@ -35,4 +35,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 .env
-.env
+
+# local renders
+/out/
+
+# Remotion Editor Starter (licensed software — do not commit)
+/src/editor/

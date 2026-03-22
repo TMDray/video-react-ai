@@ -15,6 +15,23 @@ export default defineConfig({
 			'@remotion/google-fonts/from-info',
 			'@remotion/layout-utils',
 			'@remotion/shapes',
+			// Node.js-only packages (transitive deps) — must not be processed by esbuild
+			'@remotion/renderer',
+			'@remotion/bundler',
+		],
+	},
+	ssr: {
+		// Node.js-only packages with native binaries — must not be bundled
+		external: [
+			'@remotion/renderer',
+			'@remotion/bundler',
+			'@remotion/compositor-darwin-arm64',
+			'@remotion/compositor-darwin-x64',
+			'@remotion/compositor-win32-x64-msvc',
+			'@remotion/compositor-linux-x64-musl',
+			'@remotion/compositor-linux-x64-gnu',
+			'@remotion/compositor-linux-arm64-musl',
+			'@remotion/compositor-linux-arm64-gnu',
 		],
 	},
 });
