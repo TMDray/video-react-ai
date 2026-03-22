@@ -15,6 +15,15 @@ export default defineConfig({
 			'@remotion/google-fonts/from-info',
 			'@remotion/layout-utils',
 			'@remotion/shapes',
+			// Motion design packages — ESM, no optimization needed
+			'@remotion/transitions',
+			'@remotion/animation-utils',
+			'@remotion/paths',
+			'@remotion/motion-blur',
+			'@remotion/noise',
+			'@remotion/lottie',
+			'@remotion/preload',
+			'@remotion/media-utils',
 			// Node.js-only packages (transitive deps) — must not be processed by esbuild
 			'@remotion/renderer',
 			'@remotion/bundler',

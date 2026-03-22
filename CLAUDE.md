@@ -5,11 +5,32 @@ Visual video editor built on Remotion + React Router + Tailwind v4.
 ## Quick Reference
 
 ```bash
-npm run dev              # Editor on localhost:5173
-npm run remotion:studio  # Remotion Studio (alternative preview)
-npm run build            # Build + deploy Lambda (requires AWS)
+npm run dev              # Editor on localhost:5173 (main experience)
+npm run remotion:studio  # Remotion Studio (preview compositions without editor UI)
+npm run build            # Typecheck + deploy Lambda + build prod
 npm run typecheck        # react-router typegen + tsc
+npm run lint             # ESLint + Prettier
 ```
+
+## Environment Setup
+
+```bash
+cp .env.example .env
+```
+
+| Variable | Requis pour | Default |
+| --- | --- | --- |
+| `REMOTION_AWS_ACCESS_KEY_ID` | Uploads S3 + rendu Lambda | — |
+| `REMOTION_AWS_SECRET_ACCESS_KEY` | Uploads S3 + rendu Lambda | — |
+| `REMOTION_AWS_REGION` | Uploads S3 + rendu Lambda | — |
+| `REMOTION_AWS_BUCKET_NAME` | Uploads S3 + rendu Lambda | — |
+| `OPENAI_API_KEY` | Auto-captioning (Whisper) | — |
+| `PEXELS_API_KEY` | MCP Stocky (images/videos stock) | — |
+| `UNSPLASH_ACCESS_KEY` | MCP Stocky (images) | — |
+| `SUNO_API_KEY` | MCP Suno (musique IA) | — |
+| `JAMENDO_API_KEY` | MCP Jamendo (musique libre) | — |
+
+Sans AWS : rendu local via CLI, uploads S3 disabled.
 
 ## Architecture
 
@@ -46,16 +67,14 @@ src/
 Two modes, transparent to the client:
 
 - **Lambda** (production): if AWS env vars are set → `renderMediaOnLambda()`
-- **Local** (dev): if no AWS → `bundle()` + `renderMedia()` from `@remotion/renderer`, output in `out/`
+- **Local** (dev): if no AWS → Remotion CLI via `child_process` (`npx remotion render`), output in `out/`
 
-Required env vars for Lambda: `REMOTION_AWS_ACCESS_KEY_ID`, `REMOTION_AWS_SECRET_ACCESS_KEY`, `REMOTION_AWS_REGION`, `REMOTION_AWS_BUCKET_NAME`
-
-Optional: `OPENAI_API_KEY` (for captioning via Whisper)
+Flow: Export button → POST `/api/render` → `renderId` + `bucketName` → poll `/api/progress` → download
 
 ## Feature Flags
 
 All in `src/editor/flags.ts`. Set any to `false` to disable.
-Docs: https://www.remotion.dev/docs/editor-starter/features
+Docs: <https://www.remotion.dev/docs/editor-starter/features>
 
 ## Adding a New Item Type
 
@@ -77,3 +96,36 @@ TypeScript guides the process — the union type forces exhaustive matching:
 - ESLint: `no-console`, `no-shadow`, `exhaustive-deps` as errors
 - Prettier: tabs, single quotes, organize imports
 - TypeScript strict mode with `noUnusedLocals`
+
+## Motion Design Packages
+
+Installed alongside the editor for creating compositions:
+
+| Package | Usage |
+| --- | --- |
+| `@remotion/transitions` | Scene transitions: fade, slide, wipe, flip, iris, clock-wipe |
+| `@remotion/animation-utils` | CSS transform helpers, style interpolation |
+| `@remotion/paths` | SVG path animation, morphing, progressive drawing |
+| `@remotion/motion-blur` | Cinematic motion blur (`<Trail>`, `<CameraMotionBlur>`) |
+| `@remotion/noise` | Perlin noise for generative effects, organic movement |
+| `@remotion/lottie` | Lottie vector animations (lottiefiles.com) — needs `lottie-web` |
+| `@remotion/preload` | Asset preloading for smooth playback |
+| `@remotion/media-utils` | Audio waveform visualization, video metadata |
+
+## MCP Servers
+
+Three MCP servers in `.mcp/` for Claude-assisted asset sourcing:
+
+- **Stocky** (`.mcp/stocky/`) — Search and download stock images (Pexels + Unsplash) and videos (Pexels)
+- **Suno** (`.mcp/suno/`) — Generate AI music from text prompts (paid API)
+- **Jamendo** (`.mcp/jamendo/`) — Search and download royalty-free CC music
+
+Configure API keys in `.env` and MCP config in `.claude/settings.json`.
+
+## Rules
+
+- Do NOT modify `src/editor/` (licensed Remotion code, gitignored)
+- Feature flags in `flags.ts` are the intended customization mechanism
+- All API routes are server-side only (React Router SSR)
+- State persisted to localStorage key `remotion-editor-starter-state-v3`
+- Assets cached in IndexedDB for offline use

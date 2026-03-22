@@ -6,6 +6,23 @@ A template containing the most essential elements of a video editor.
 - **Get the best of Remotion** put together into one template, culminating years of development and battle-testing.
 - **Customize anything** by adopting a clean, well-structured codebase with 80+ feature flags.
 
+## Quick Start
+
+```bash
+npm install
+cp .env.example .env      # Optional: add AWS + OpenAI + MCP keys
+npm run dev                # Opens editor at http://localhost:5173
+```
+
+Without AWS credentials, rendering uses the local Remotion CLI. See `.env.example` for all available environment variables.
+
+| Command | Description |
+| --- | --- |
+| `npm run dev` | Visual editor (React Router app) |
+| `npm run remotion:studio` | Remotion Studio — preview compositions without editor UI |
+| `npm run build` | Typecheck + deploy Lambda + build production |
+| `npm run lint` | ESLint + Prettier |
+
 ## Resources
 
 - 📚 [Documentation](https://www.remotion.dev/docs/editor-starter)
