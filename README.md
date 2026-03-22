@@ -19,6 +19,36 @@ npm run studio
 npm run render -- hello-world-landscape out/hello-world.mp4
 ```
 
+## Props Editor — Modifier les videos sans code
+
+**Pour les utilisateurs non-techniques** : utilise l'interface graphique pour modifier les videos en live-preview.
+
+```bash
+npm run editor
+# → Ouvre http://localhost:3001
+```
+
+La Props Editor permet de :
+
+- 🎯 **Selectionner une video** dans la liste
+- 📐 **Changer le format** (landscape 16:9, linkedin 1:1, short 9:16)
+- ✏️ **Editer les props** (texte, nombres, images, énumérations)
+- 👀 **Voir le preview live** avec @remotion/player
+- 📋 **Copier la commande render** pour generer la video finale
+
+### Exemple : modifier hello-world
+
+1. Lance `npm run editor`
+2. Selectionne "hello-world" dans le dropdown "Video"
+3. Modifie "headline" → preview se met à jour automatiquement
+4. Change le format en "short" → preview redimensionne
+5. Clique "Copier" sous la commande render
+6. Colle dans le terminal pour generer : `remotion render ...`
+
+La Props Editor lira automatiquement les schemas Zod des videos. Ajoute un `schema.ts` dans ta video pour rendre les props editables.
+
+**Pour les développeurs** : voir [Props Editor Guide](./editor/USER_GUIDE.md) pour personnaliser les champs et ajouter de nouveaux types de props.
+
 ## Creer une nouvelle video
 
 ```bash
