@@ -8,16 +8,18 @@
 .fieldContainer label {
   font-size: 13px;
   font-weight: 500;
-  color: #374151;
+  color: var(--text-primary);
 }
 
 .input {
   padding: 8px 12px;
-  border: 1px solid #e5e7eb;
+  border: 1px solid var(--border);
   border-radius: 4px;
   font-size: 14px;
   font-family: inherit;
-  background-color: white;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  transition: border-color 0.2s;
 }
 
 .input:focus {
@@ -26,19 +28,35 @@
   box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
 }
 
+.inputError {
+  border-color: var(--error);
+}
+
 .select {
   padding: 8px 12px;
-  border: 1px solid #e5e7eb;
+  border: 1px solid var(--border);
   border-radius: 4px;
   font-size: 14px;
-  background-color: white;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
   cursor: pointer;
+  transition: border-color 0.2s;
 }
 
 .select:focus {
   outline: none;
   border-color: #3b82f6;
   box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.selectError {
+  border-color: var(--error);
+}
+
+.errorText {
+  font-size: 12px;
+  color: var(--error);
+  margin-top: 2px;
 }
 
 .checkboxLabel {
@@ -59,18 +77,20 @@
 
 .assetButton {
   padding: 8px 12px;
-  border: 1px solid #e5e7eb;
+  border: 1px solid var(--border);
   border-radius: 4px;
-  background-color: white;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
   cursor: pointer;
   font-size: 14px;
   font-weight: 500;
   white-space: nowrap;
+  transition: background-color 0.2s;
 }
 
 .assetButton:hover {
-  border-color: #d1d5db;
-  background-color: #f9fafb;
+  border-color: var(--border);
+  background-color: var(--surface);
 }
 
 .assetButton:focus {

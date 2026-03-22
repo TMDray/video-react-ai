@@ -1,5 +1,5 @@
 import React from "react";
-import { Controller, Control } from "react-hook-form";
+import { Controller, Control, FieldError } from "react-hook-form";
 import { FieldDescriptor } from "../../lib/schemaIntrospection";
 import styles from "./fields.module.css";
 
@@ -7,9 +7,10 @@ interface BooleanFieldProps {
   field: FieldDescriptor;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   control: Control<any>;
+  error?: FieldError;
 }
 
-export const BooleanField: React.FC<BooleanFieldProps> = ({ field, control }) => {
+export const BooleanField: React.FC<BooleanFieldProps> = ({ field, control, error }) => {
   return (
     <Controller
       name={field.key}
@@ -26,6 +27,7 @@ export const BooleanField: React.FC<BooleanFieldProps> = ({ field, control }) =>
             />
             {field.label}
           </label>
+          {error && <span className={styles.errorText}>{String(error.message)}</span>}
         </div>
       )}
     />

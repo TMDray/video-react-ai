@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Controller, Control } from "react-hook-form";
+import { Controller, Control, FieldError } from "react-hook-form";
 import { FieldDescriptor } from "../../lib/schemaIntrospection";
 import { AssetPicker } from "../AssetPicker";
 import styles from "./fields.module.css";
@@ -8,9 +8,10 @@ interface AssetFieldProps {
   field: FieldDescriptor;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   control: Control<any>;
+  error?: FieldError;
 }
 
-export const AssetField: React.FC<AssetFieldProps> = ({ field, control }) => {
+export const AssetField: React.FC<AssetFieldProps> = ({ field, control, error }) => {
   const [showPicker, setShowPicker] = useState(false);
 
   return (
@@ -26,7 +27,7 @@ export const AssetField: React.FC<AssetFieldProps> = ({ field, control }) => {
               type="text"
               placeholder={String(field.defaultValue || "")}
               {...fieldProps}
-              className={styles.input}
+              className={`${styles.input} ${error ? styles.inputError : ""}`}
               style={{ flex: 1 }}
             />
             <button
@@ -37,6 +38,7 @@ export const AssetField: React.FC<AssetFieldProps> = ({ field, control }) => {
               📁 Pick
             </button>
           </div>
+          {error && <span className={styles.errorText}>{String(error.message)}</span>}
           {showPicker && (
             <AssetPicker
               onSelect={(asset) => {

@@ -54,10 +54,7 @@ export const PropsForm: React.FC<PropsFormProps> = ({ entry, currentProps, onPro
 
         {fields.map((field) => (
           <div key={field.key}>
-            <FieldRenderer field={field} control={control} />
-            {errors[field.key] && (
-              <p className={styles.error}>{String(errors[field.key]?.message)}</p>
-            )}
+            <FieldRenderer field={field} control={control} error={errors[field.key]} />
           </div>
         ))}
       </div>
