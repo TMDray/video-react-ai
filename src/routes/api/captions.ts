@@ -41,8 +41,8 @@ export const action = async ({request}: Route.ActionArgs) => {
 			throw new Error('No file content received from S3');
 		}
 
-		const arrayBuffer = await response.Body.transformToByteArray();
-		const blob = new Blob([arrayBuffer as unknown as ArrayBuffer], {
+		const uint8Array = await response.Body.transformToByteArray();
+		const blob = new Blob([uint8Array], {
 			type: 'audio/wav',
 		});
 		const file = new File([blob], 'audio.wav', {type: 'audio/wav'});

@@ -1,5 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import {Readable} from 'node:stream';
 import {LOCAL_RENDER_OUTPUT_DIR} from '../../remotion/constants';
 import {Route} from './+types/download';
 
@@ -10,6 +11,11 @@ export const loader = async ({request}: Route.LoaderArgs) => {
 
 	if (!id || !/^[a-zA-Z0-9_-]+$/.test(id)) {
 		return new Response('Invalid render ID', {status: 400});
+	}
+
+	const ALLOWED_EXTENSIONS = ['mp4', 'webm'];
+	if (!ALLOWED_EXTENSIONS.includes(ext)) {
+		return new Response('Invalid file extension', {status: 400});
 	}
 
 	const filePath = path.resolve(
@@ -26,7 +32,7 @@ export const loader = async ({request}: Route.LoaderArgs) => {
 	const stream = fs.createReadStream(filePath);
 	const contentType = ext === 'mp4' ? 'video/mp4' : 'video/webm';
 
-	return new Response(stream as unknown as ReadableStream, {
+	return new Response(Readable.toWeb(stream) as ReadableStream, {
 		headers: {
 			'Content-Type': contentType,
 			'Content-Length': stat.size.toString(),

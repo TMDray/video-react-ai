@@ -48,9 +48,7 @@ const startLocalRender = ({
 	});
 
 	const outputDir = path.resolve(process.cwd(), LOCAL_RENDER_OUTPUT_DIR);
-	if (!fs.existsSync(outputDir)) {
-		fs.mkdirSync(outputDir, {recursive: true});
-	}
+	fs.mkdirSync(outputDir, {recursive: true});
 
 	const extension = codec === 'h264' ? 'mp4' : 'webm';
 	const outputLocation = path.join(outputDir, `${renderId}.${extension}`);
