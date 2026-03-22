@@ -1,180 +1,33 @@
-# Remotion Video Template
+![Editor Starter Screenshot](https://pub-646d808d9cb240cea53bedc76dd3cd0c.r2.dev/editor-starter-og-image.jpg)
 
-Template pour creer des videos animees professionnelles avec du code.
-Construit avec Remotion + React + ElevenLabs.
+A template containing the most essential elements of a video editor.
 
-## Quick Start
+- **Save countless hours** by leveraging our pre-made components for timeline, interactive canvas, font picker, asset uploads, etc.
+- **Get the best of Remotion** put together into one template, culminating years of development and battle-testing.
+- **Customize anything** by adopting a clean, well-structured codebase with 80+ feature flags.
 
-```bash
-# 1. Installer les dependances
-npm install
+## Resources
 
-# 2. Generer les effets sonores et la musique
-npm run generate:audio
-
-# 3. Lancer le studio de preview
-npm run studio
-
-# 4. Render une video
-npm run render -- hello-world-landscape out/hello-world.mp4
-```
-
-## Props Editor — Modifier les videos sans code
-
-**Pour les utilisateurs non-techniques** : utilise l'interface graphique pour modifier les videos en live-preview.
-
-```bash
-npm run editor
-# → Ouvre http://localhost:3001
-```
-
-La Props Editor permet de :
-
-- 🎯 **Selectionner une video** dans la liste
-- 📐 **Changer le format** (landscape 16:9, linkedin 1:1, short 9:16)
-- ✏️ **Editer les props** (texte, nombres, images, énumérations)
-- 👀 **Voir le preview live** avec @remotion/player
-- 📋 **Copier la commande render** pour generer la video finale
-
-### Exemple : modifier hello-world
-
-1. Lance `npm run editor`
-2. Selectionne "hello-world" dans le dropdown "Video"
-3. Modifie "headline" → preview se met à jour automatiquement
-4. Change le format en "short" → preview redimensionne
-5. Clique "Copier" sous la commande render
-6. Colle dans le terminal pour generer : `remotion render ...`
-
-La Props Editor lira automatiquement les schemas Zod des videos. Ajoute un `schema.ts` dans ta video pour rendre les props editables.
-
-**Pour les développeurs** : voir [Props Editor Guide](./editor/USER_GUIDE.md) pour personnaliser les champs et ajouter de nouveaux types de props.
-
-## Creer une nouvelle video
-
-```bash
-# Scaffold automatique
-npm run new-video -- ma-video "Ma Super Video"
-
-# Editer les scenes dans src/videos/ma-video/scenes/
-# Editer l'audio dans src/videos/ma-video/audio.config.ts
-
-# Preview
-npm run studio
-
-# Generer la voix off (necessite ELEVENLABS_API_KEY dans .env)
-npm run generate:voiceover -- ma-video
-
-# Render
-npm run render -- ma-video-landscape out/ma-video.mp4
-```
-
-## Personnaliser pour ta marque
-
-Copie ce prompt et colle-le a Claude avec tes infos :
-
-```
-Personnalise ce template Remotion pour ma marque :
-
-- Nom : [nom de ta marque]
-- Tagline : [ta tagline]
-- Logo : [nom du fichier dans public/, ex: logo.png]
-- Couleur principale : [hex, ex: #f97316]
-- Couleur principale light : [hex]
-- Couleur principale dark : [hex]
-- Style de fond : [dark / light]
-- Font titres : [nom Google Font, ex: "Outfit"]
-- Font corps : [nom Google Font, ex: "Inter"]
-- CTA texte : [ex: "Essayer gratuitement"]
-- CTA URL : [ex: "mamarque.com/essai"]
-
-Etapes :
-1. Mets a jour src/brand.config.ts avec ces valeurs
-2. Mets a jour src/lib/fonts.ts pour charger les bonnes Google Fonts
-3. Si style "light", inverse les couleurs bg/text dans brand.config.ts
-4. Verifie que la video hello-world rend correctement : npm run studio
-5. Optionnel : remplace public/logo-placeholder.svg par le vrai logo
-```
-
-## Structure du projet
-
-```
-src/
-  brand.config.ts         # Fiche d'identite de ta marque
-  lib/                    # Outils partages (animations, transitions, audio...)
-  videos/
-    _template/            # Modele copie pour chaque nouvelle video
-    hello-world/          # Video d'exemple fonctionnelle
-    registry.ts           # Liste des videos enregistrees
-public/
-  audio/sfx/              # Bruitages (generes par scripts)
-  audio/music/            # Musique de fond (generee par scripts)
-  audio/voiceover/        # Voix off (generee via ElevenLabs)
-scripts/
-  new-video.sh            # Creer une nouvelle video
-  generate-audio.ts       # Generer SFX + musique
-  generate-voiceover.ts   # Generer la voix off
-```
-
-## Formats disponibles
-
-Chaque video est automatiquement disponible en 3 formats :
-
-| Format    | Dimensions | Usage                 |
-| --------- | ---------- | --------------------- |
-| landscape | 1920x1080  | YouTube, site web     |
-| linkedin  | 1080x1350  | LinkedIn, Instagram   |
-| short     | 1080x1920  | TikTok, Reels, Shorts |
-
-## Assets stock (images & vidéos)
-
-Le MCP Stocky est intégré pour chercher des images et vidéos libres de droits.
-
-### Images (Pexels + Unsplash)
-
-Ajouter dans `.env` :
-
-```
-PEXELS_API_KEY=xxx        # Gratuit sur pexels.com/api/
-UNSPLASH_ACCESS_KEY=xxx   # Gratuit sur unsplash.com/developers
-```
-
-Demander à Claude :
-
-```
-Cherche une image de bureau moderne pour le fond de la scène intro.
-```
-
-Les images sont téléchargées dans `public/images/` et utilisées via `staticFile()`.
-
-### Vidéos B-roll (Pexels)
-
-```
-Cherche une vidéo de 10-20s d'une réunion en bureau pour fond de scène.
-```
-
-Les vidéos sont téléchargées dans `public/videos/` et utilisées via `<OffthreadVideo>`.
-
-### Utilisation dans une scène
-
-```tsx
-import { Img, staticFile } from "remotion";
-import { OffthreadVideo } from "remotion";
-
-// Image
-<Img src={staticFile("images/office-bg.jpg")} style={{ width: "100%", height: "100%" }} />
-
-// Vidéo B-roll
-<OffthreadVideo src={staticFile("videos/meeting.mp4")} style={{ width: "100%", height: "100%" }} />
-```
-
-## Tech stack
-
-- [Remotion](https://remotion.dev) v4 — React video framework
-- [@remotion/transitions](https://remotion.dev/docs/transitions) — Scene transitions
-- [@remotion/google-fonts](https://remotion.dev/docs/google-fonts) — Font loading
-- [@remotion/captions](https://remotion.dev/docs/captions) — TikTok-style subtitles
-- [@remotion/lottie](https://remotion.dev/docs/lottie) — Lottie animations
-- [ElevenLabs](https://elevenlabs.io) — AI voiceover generation
-- [Pexels](https://pexels.com) / [Unsplash](https://unsplash.com) — Stock images & videos
-- [Suno](https://suno.com) / [Jamendo](https://jamendo.com) — AI & royalty-free music
-- [DeepL](https://deepl.com) — Subtitle translation
+- 📚 [Documentation](https://www.remotion.dev/docs/editor-starter)
+  - [Setup](https://www.remotion.dev/docs/editor-starter/setup)
+  - [Dependencies](https://www.remotion.dev/docs/editor-starter/dependencies)
+  - [Features](https://www.remotion.dev/docs/editor-starter/features)
+  - [State Management](https://www.remotion.dev/docs/editor-starter/state-management)
+  - [Tracks, Items and Assets](https://www.remotion.dev/docs/editor-starter/tracks-items-assets)
+  - [Undo and Redo](https://www.remotion.dev/docs/editor-starter/undo-redo)
+  - [Copy and Paste](https://www.remotion.dev/docs/editor-starter/copy-paste)
+  - [Cropping](https://www.remotion.dev/docs/editor-starter/cropping)
+  - [Fonts](https://www.remotion.dev/docs/editor-starter/fonts)
+  - [Asset uploads](https://www.remotion.dev/docs/editor-starter/asset-uploads)
+  - [Asset cleanup](https://www.remotion.dev/docs/editor-starter/asset-cleanup)
+  - [Persistance](https://www.remotion.dev/docs/editor-starter/persistance)
+  - [Captions](https://www.remotion.dev/docs/editor-starter/captioning)
+  - [Rendering](https://www.remotion.dev/docs/editor-starter/rendering)
+  - [Backend routes](https://www.remotion.dev/docs/editor-starter/backend-routes)
+  - [Production Checklist](https://www.remotion.dev/docs/editor-starter/production-checklist)
+  - [Features not included](https://www.remotion.dev/docs/editor-starter/features-not-included)
+  - [FAQ](https://www.remotion.dev/docs/editor-starter/faq)
+- 🎞️ [Demo](https://editor-starter.remotion.dev/)
+- 🛒 [Store page](https://remotion.pro/editor-starter)
+- 👾 [Discord community](https://remotion.dev/discord)
+- 📄 [License](/LICENSE.md)
