@@ -1,5 +1,7 @@
 @import 'tailwindcss';
 
+@source "../editor/";
+
 @theme {
 	--color-editor-starter-bg: #28282e;
 	--color-editor-starter-panel: #212126; /* should be darker than bg to create a contrast */
