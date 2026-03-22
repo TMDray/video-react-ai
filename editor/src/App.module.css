@@ -1,6 +1,5 @@
-/* CSS Variables for theming */
+/* CSS Variables for dark mode theming */
 :root {
-  /* Dark mode (default) */
   --bg-primary: #1a1a2e;
   --bg-secondary: #16213e;
   --text-primary: #e0e0e0;
@@ -9,18 +8,6 @@
   --error: #f87171;
   --success: #4ade80;
   --surface: #0f172a;
-}
-
-:root.light {
-  /* Light mode */
-  --bg-primary: #ffffff;
-  --bg-secondary: #fafbfc;
-  --text-primary: #111827;
-  --text-secondary: #6b7280;
-  --border: #e5e7eb;
-  --error: #dc2626;
-  --success: #16a34a;
-  --surface: #f9fafb;
 }
 
 .container {
@@ -36,7 +23,6 @@
 
 .header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
   gap: 24px;
   padding: 16px 24px;
@@ -55,7 +41,6 @@
 .selectors {
   display: flex;
   gap: 24px;
-  flex: 1;
 }
 
 .main {

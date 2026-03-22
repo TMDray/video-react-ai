@@ -2,7 +2,7 @@ import { useRef, useState, useEffect } from "react";
 import { PlayerRef } from "@remotion/player";
 
 export function usePlayerRef(durationInFrames: number) {
-  const playerRef = useRef<PlayerRef>(null);
+  const playerRef = useRef<PlayerRef | null>(null);
   const [currentFrame, setCurrentFrame] = useState(0);
 
   useEffect(() => {

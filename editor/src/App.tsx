@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo } from "react";
 import { videos } from "@/videos/registry";
 import { useEditorState } from "./hooks/useEditorState";
 import { usePlayerRef } from "./hooks/usePlayerRef";
@@ -11,14 +11,12 @@ import { PresetPanel } from "./components/PresetPanel";
 import { PreviewPanel } from "./components/PreviewPanel";
 import { RenderCommand } from "./components/RenderCommand";
 import { TimelineControls } from "./components/TimelineControls";
-import { ThemeToggle } from "./components/ThemeToggle";
 import { ErrorBoundary } from "./components/ErrorBoundary";
 import styles from "./App.module.css";
 
 export const App: React.FC = () => {
   const { state, setVideoId, setFormatId, setProps } = useEditorState();
   const { playerRef, currentFrame } = usePlayerRef(0);
-  const [showHelp, setShowHelp] = useState(false);
 
   // Find current video entry
   const currentEntry = useMemo(
@@ -48,7 +46,6 @@ export const App: React.FC = () => {
     currentFrame,
     durationInFrames: videoDuration,
     onExport: handleKeyboardExport,
-    onToggleHelp: () => setShowHelp(!showHelp),
   });
 
   if (!currentEntry) {
@@ -65,7 +62,6 @@ export const App: React.FC = () => {
             <VideoSelector selectedVideoId={state.selectedVideoId} onSelect={setVideoId} />
             <FormatSelector selectedFormatId={state.selectedFormatId} onSelect={setFormatId} />
           </div>
-          <ThemeToggle />
         </header>
 
         {/* Main content: left sidebar + right preview */}
