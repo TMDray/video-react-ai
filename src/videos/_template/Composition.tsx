@@ -1,6 +1,7 @@
 import { AbsoluteFill } from "remotion";
 import { TransitionSeries } from "@remotion/transitions";
 import { colors } from "../../lib/colors";
+import { SceneErrorBoundary } from "../../lib/SceneErrorBoundary";
 import { fadePresentation, springTiming } from "../../lib/transitions";
 import { SfxLayer, MusicLayer } from "../../lib/audio";
 import { audioConfig } from "./audio.config";
@@ -17,19 +18,25 @@ export const TemplateComposition: React.FC<TemplateProps> = (props) => {
     <AbsoluteFill style={{ backgroundColor: colors.bg }}>
       <TransitionSeries>
         <TransitionSeries.Sequence durationInFrames={config.scenes.intro.duration}>
-          <Intro title={props.title} logoUrl={props.logoUrl} />
+          <SceneErrorBoundary>
+            <Intro title={props.title} logoUrl={props.logoUrl} />
+          </SceneErrorBoundary>
         </TransitionSeries.Sequence>
 
         <TransitionSeries.Transition presentation={fadePresentation()} timing={springTiming(t)} />
 
         <TransitionSeries.Sequence durationInFrames={config.scenes.main.duration}>
-          <Main body={props.body} />
+          <SceneErrorBoundary>
+            <Main body={props.body} />
+          </SceneErrorBoundary>
         </TransitionSeries.Sequence>
 
         <TransitionSeries.Transition presentation={fadePresentation()} timing={springTiming(t)} />
 
         <TransitionSeries.Sequence durationInFrames={config.scenes.outro.duration}>
-          <Outro title={props.title} subtitle={props.subtitle} ctaText={props.ctaText} />
+          <SceneErrorBoundary>
+            <Outro title={props.title} subtitle={props.subtitle} ctaText={props.ctaText} />
+          </SceneErrorBoundary>
         </TransitionSeries.Sequence>
       </TransitionSeries>
 

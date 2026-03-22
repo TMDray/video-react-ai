@@ -13,7 +13,7 @@ export interface FormatConfig {
 export interface VideoEntry {
   id: string;
   title: string;
-  component: React.FC<any>;
+  component: React.ComponentType<Record<string, unknown>>;
   durationInFrames: number;
   fps: number;
   formats?: FormatId[];

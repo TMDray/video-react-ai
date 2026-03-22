@@ -17,7 +17,7 @@ export const Root: React.FC = () => {
             <Composition
               key={`${video.id}-${formatId}`}
               id={`${video.id}-${formatId}`}
-              component={video.component}
+              component={video.component as any}
               durationInFrames={video.durationInFrames}
               fps={video.fps}
               width={format.width}

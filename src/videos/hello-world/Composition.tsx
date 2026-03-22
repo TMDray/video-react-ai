@@ -1,6 +1,7 @@
 import { AbsoluteFill } from "remotion";
 import { TransitionSeries } from "@remotion/transitions";
 import { colors } from "../../lib/colors";
+import { SceneErrorBoundary } from "../../lib/SceneErrorBoundary";
 import { fadePresentation, springTiming } from "../../lib/transitions";
 import { SfxLayer, MusicLayer } from "../../lib/audio";
 import { audioConfig } from "./audio.config";
@@ -25,24 +26,30 @@ export const HelloWorldComposition: React.FC<HelloWorldProps> = (props) => {
       {/* ═══ SCENES with transitions ═══ */}
       <TransitionSeries>
         <TransitionSeries.Sequence durationInFrames={config.scenes.intro.duration}>
-          <Intro brandName={props.brandName} tagline={props.tagline} logoUrl={props.logoUrl} />
+          <SceneErrorBoundary>
+            <Intro brandName={props.brandName} tagline={props.tagline} logoUrl={props.logoUrl} />
+          </SceneErrorBoundary>
         </TransitionSeries.Sequence>
 
         <TransitionSeries.Transition presentation={fadePresentation()} timing={springTiming(t)} />
 
         <TransitionSeries.Sequence durationInFrames={config.scenes.main.duration}>
-          <Main headline={props.headline} />
+          <SceneErrorBoundary>
+            <Main headline={props.headline} />
+          </SceneErrorBoundary>
         </TransitionSeries.Sequence>
 
         <TransitionSeries.Transition presentation={fadePresentation()} timing={springTiming(t)} />
 
         <TransitionSeries.Sequence durationInFrames={config.scenes.outro.duration}>
-          <Outro
-            brandName={props.brandName}
-            tagline={props.tagline}
-            ctaText={props.ctaText}
-            logoUrl={props.logoUrl}
-          />
+          <SceneErrorBoundary>
+            <Outro
+              brandName={props.brandName}
+              tagline={props.tagline}
+              ctaText={props.ctaText}
+              logoUrl={props.logoUrl}
+            />
+          </SceneErrorBoundary>
         </TransitionSeries.Sequence>
       </TransitionSeries>
 

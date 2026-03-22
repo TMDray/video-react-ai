@@ -1,4 +1,5 @@
 import type { VideoEntry } from "../lib/types";
+import React from "react";
 import { HelloWorldComposition } from "./hello-world/Composition";
 import { helloWorldSchema } from "./hello-world/schema";
 import { brand } from "../brand.config";
@@ -7,7 +8,7 @@ export const videos: VideoEntry[] = [
   {
     id: "hello-world",
     title: "Hello World",
-    component: HelloWorldComposition,
+    component: HelloWorldComposition as React.ComponentType<Record<string, unknown>>,
     durationInFrames: 450,
     fps: 30,
     schema: helloWorldSchema,
