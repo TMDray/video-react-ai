@@ -14,5 +14,13 @@
       "@/*": ["src/*"]
     }
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx", "remotion.config.ts"]
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "remotion.config.ts",
+    "editor/**/*.ts",
+    "editor/**/*.tsx",
+    "editor/vite.config.ts",
+    "editor/vitest.config.ts"
+  ]
 }
