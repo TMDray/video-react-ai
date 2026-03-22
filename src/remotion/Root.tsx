@@ -8,38 +8,60 @@ import {
 import {getCompositionDuration} from '../editor/utils/get-composition-duration';
 import {collectFontInfoFromItems} from '../editor/utils/text/collect-font-info-from-items';
 import {COMP_NAME} from './constants';
+import {SpringAnimationDemo} from './examples/SpringAnimationDemo';
+import {TransitionsDemo} from './examples/TransitionsDemo';
 import {CompositionWithContexts} from './main';
 
 export const Root: React.FC = () => {
 	return (
-		<Composition
-			id={COMP_NAME}
-			component={CompositionWithContexts}
-			calculateMetadata={({props}) => {
-				const framesShown = Math.max(
-					1,
-					getCompositionDuration(Object.values(props.items)),
-				);
+		<>
+			<Composition
+				id={COMP_NAME}
+				component={CompositionWithContexts}
+				calculateMetadata={({props}) => {
+					const framesShown = Math.max(
+						1,
+						getCompositionDuration(Object.values(props.items)),
+					);
 
-				return {
-					width: props.compositionWidth,
-					height: props.compositionHeight,
-					durationInFrames: framesShown,
-					fps: DEFAULT_FPS,
-					props: {
-						...props,
-						fontInfos: collectFontInfoFromItems(Object.values(props.items)),
-					},
-				};
-			}}
-			defaultProps={{
-				tracks: [],
-				assets: {},
-				items: {},
-				compositionWidth: DEFAULT_COMPOSITION_WIDTH,
-				compositionHeight: DEFAULT_COMPOSITION_HEIGHT,
-				fontInfos: {},
-			}}
-		/>
+					return {
+						width: props.compositionWidth,
+						height: props.compositionHeight,
+						durationInFrames: framesShown,
+						fps: DEFAULT_FPS,
+						props: {
+							...props,
+							fontInfos: collectFontInfoFromItems(
+								Object.values(props.items),
+							),
+						},
+					};
+				}}
+				defaultProps={{
+					tracks: [],
+					assets: {},
+					items: {},
+					compositionWidth: DEFAULT_COMPOSITION_WIDTH,
+					compositionHeight: DEFAULT_COMPOSITION_HEIGHT,
+					fontInfos: {},
+				}}
+			/>
+			<Composition
+				id="TransitionsDemo"
+				component={TransitionsDemo}
+				durationInFrames={210}
+				fps={30}
+				width={1920}
+				height={1080}
+			/>
+			<Composition
+				id="SpringAnimationDemo"
+				component={SpringAnimationDemo}
+				durationInFrames={120}
+				fps={30}
+				width={1920}
+				height={1080}
+			/>
+		</>
 	);
 };
