@@ -8,6 +8,7 @@ export default [
 		route('/render', 'routes/api/render.ts'),
 		route('/render/download', 'routes/api/download.ts'),
 		route('/captions', 'routes/api/captions.ts'),
+		route('/upload-file/:key', 'routes/api/upload-file.ts'),
 		route('/fonts/:name', 'routes/api/font.ts'),
 	]),
 ] satisfies RouteConfig;

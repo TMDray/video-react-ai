@@ -1,17 +1,7 @@
 import {
-	getRenderProgress,
-	speculateFunctionName,
-} from '@remotion/lambda/client';
-import {
 	GetProgressPayload,
 	GetProgressResponse,
 } from '../../editor/rendering/types';
-import {requireServerEnv} from '../../editor/utils/server-env';
-import {
-	DISK_SIZE_IN_MB,
-	MEM_SIZE_IN_MB,
-	TIMEOUT_IN_SECONDS,
-} from '../../remotion/constants';
 import {Route} from './+types/progress';
 import {getLocalRenderProgress} from './local-render-store';
 
@@ -27,86 +17,38 @@ export const action = async ({request}: Route.ActionArgs) => {
 			throw new Error('renderId is not set');
 		}
 
-		// Local render path
-		if (body.bucketName === 'local') {
-			const localProgress = getLocalRenderProgress(body.renderId);
+		const localProgress = getLocalRenderProgress(body.renderId);
 
-			if (!localProgress) {
-				const response: GetProgressResponse = {
-					type: 'error',
-					error: 'Render not found',
-				};
-				return Response.json(response);
-			}
-
-			if (localProgress.type === 'done') {
-				const response: GetProgressResponse = {
-					type: 'done',
-					outputFile: localProgress.outputFile,
-					outputSizeInBytes: localProgress.outputSizeInBytes,
-					outputName: localProgress.outputFile.split('/').pop() ?? 'video',
-				};
-				return Response.json(response);
-			}
-
-			if (localProgress.type === 'error') {
-				const response: GetProgressResponse = {
-					type: 'error',
-					error: localProgress.error,
-				};
-				return Response.json(response);
-			}
-
-			const response: GetProgressResponse = {
-				type: 'in-progress',
-				overallProgress: localProgress.overallProgress,
-			};
-			return Response.json(response);
-		}
-
-		// Lambda render path
-		const serverEnv = requireServerEnv();
-
-		const progress = await getRenderProgress({
-			bucketName: body.bucketName,
-			renderId: body.renderId,
-			functionName: speculateFunctionName({
-				diskSizeInMb: DISK_SIZE_IN_MB,
-				memorySizeInMb: MEM_SIZE_IN_MB,
-				timeoutInSeconds: TIMEOUT_IN_SECONDS,
-			}),
-			region: serverEnv.REMOTION_AWS_REGION,
-			skipLambdaInvocation: false,
-		});
-
-		if (progress.done) {
-			const response: GetProgressResponse = {
-				type: 'done',
-				outputFile: progress.outputFile as string,
-				outputSizeInBytes: progress.outputSizeInBytes as number,
-				outputName:
-					(progress.renderMetadata?.downloadBehavior.type === 'download'
-						? progress.renderMetadata.downloadBehavior.fileName
-						: null) ?? (progress.outKey as string),
-			};
-
-			return Response.json(response);
-		}
-
-		if (progress.fatalErrorEncountered) {
+		if (!localProgress) {
 			const response: GetProgressResponse = {
 				type: 'error',
-				error: progress.errors[0].message,
+				error: 'Render not found',
 			};
+			return Response.json(response);
+		}
 
+		if (localProgress.type === 'done') {
+			const response: GetProgressResponse = {
+				type: 'done',
+				outputFile: localProgress.outputFile,
+				outputSizeInBytes: localProgress.outputSizeInBytes,
+				outputName: localProgress.outputFile.split('/').pop() ?? 'video',
+			};
+			return Response.json(response);
+		}
+
+		if (localProgress.type === 'error') {
+			const response: GetProgressResponse = {
+				type: 'error',
+				error: localProgress.error,
+			};
 			return Response.json(response);
 		}
 
 		const response: GetProgressResponse = {
 			type: 'in-progress',
-			overallProgress: progress.overallProgress,
+			overallProgress: localProgress.overallProgress,
 		};
-
 		return Response.json(response);
 	} catch (error) {
 		// eslint-disable-next-line no-console

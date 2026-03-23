@@ -7,7 +7,7 @@ Visual video editor built on Remotion + React Router + Tailwind v4.
 ```bash
 npm run dev              # Editor on localhost:5173 (main experience)
 npm run remotion:studio  # Remotion Studio (preview compositions without editor UI)
-npm run build            # Typecheck + deploy Lambda + build prod
+npm run build            # Typecheck + build prod
 npm run typecheck        # react-router typegen + tsc
 npm run lint             # ESLint + Prettier
 ```
@@ -20,17 +20,13 @@ cp .env.example .env
 
 | Variable | Requis pour | Default |
 | --- | --- | --- |
-| `REMOTION_AWS_ACCESS_KEY_ID` | Uploads S3 + rendu Lambda | — |
-| `REMOTION_AWS_SECRET_ACCESS_KEY` | Uploads S3 + rendu Lambda | — |
-| `REMOTION_AWS_REGION` | Uploads S3 + rendu Lambda | — |
-| `REMOTION_AWS_BUCKET_NAME` | Uploads S3 + rendu Lambda | — |
-| `OPENAI_API_KEY` | Auto-captioning (Whisper) | — |
+| `MISTRAL_API_KEY` | Auto-captioning (Voxtral) | — |
 | `PEXELS_API_KEY` | MCP Stocky (images/videos stock) | — |
 | `UNSPLASH_ACCESS_KEY` | MCP Stocky (images) | — |
 | `SUNO_API_KEY` | MCP Suno (musique IA) | — |
 | `JAMENDO_API_KEY` | MCP Jamendo (musique libre) | — |
 
-Sans AWS : rendu local via CLI, uploads S3 disabled.
+Toutes les clés sont optionnelles. L'éditeur fonctionne sans aucune clé.
 
 ## Architecture
 
@@ -45,12 +41,13 @@ src/
     inspector/        → Context-sensitive property panel
     rendering/        → Render trigger + progress tracking
   remotion/           → Compositions (Root.tsx, main.tsx)
-    constants.ts      → Comp name, Lambda config, local render output dir
+    constants.ts      → Comp name, local render output dir
   routes/             → React Router API endpoints
-    api/render.ts     → Render video (Lambda or local fallback)
+    api/render.ts     → Render video (local via Remotion CLI)
     api/progress.ts   → Poll render progress
-    api/upload.ts     → S3 presigned URL uploads
-    api/captions.ts   → OpenAI Whisper transcription
+    api/upload.ts     → Local file uploads
+    api/upload-file.ts → Local file upload receiver
+    api/captions.ts   → Mistral Voxtral transcription
     api/download.ts   → Serve locally rendered files
     api/font.ts       → Google Fonts proxy
 ```
@@ -64,12 +61,9 @@ src/
 
 ## Rendering
 
-Two modes, transparent to the client:
+Rendu local via Remotion CLI (`npx remotion render`), output dans `out/`.
 
-- **Lambda** (production): if AWS env vars are set → `renderMediaOnLambda()`
-- **Local** (dev): if no AWS → Remotion CLI via `child_process` (`npx remotion render`), output in `out/`
-
-Flow: Export button → POST `/api/render` → `renderId` + `bucketName` → poll `/api/progress` → download
+Flow: Export button → POST `/api/render` → `renderId` → poll `/api/progress` → download
 
 ## Feature Flags
 

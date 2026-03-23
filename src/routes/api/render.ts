@@ -1,7 +1,3 @@
-import {
-	renderMediaOnLambda,
-	speculateFunctionName,
-} from '@remotion/lambda/client';
 import {execFile} from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -9,29 +5,12 @@ import {
 	RenderVideoPayload,
 	RenderVideoResponse,
 } from '../../editor/rendering/types';
-import {getEditorExportFileName} from '../../editor/utils/export-file-name';
 import {generateRandomId} from '../../editor/utils/generate-random-id';
 import {collectFontInfoFromItems} from '../../editor/utils/text/collect-font-info-from-items';
-import {
-	COMP_NAME,
-	DISK_SIZE_IN_MB,
-	LOCAL_RENDER_OUTPUT_DIR,
-	MEM_SIZE_IN_MB,
-	SITE_NAME,
-	TIMEOUT_IN_SECONDS,
-} from '../../remotion/constants';
+import {COMP_NAME, LOCAL_RENDER_OUTPUT_DIR} from '../../remotion/constants';
 import type {CompositionWithContextsProps} from '../../remotion/main';
 import {Route} from './+types/render';
 import {setLocalRenderProgress} from './local-render-store';
-
-const isAwsConfigured = (): boolean => {
-	return Boolean(
-		process.env.REMOTION_AWS_ACCESS_KEY_ID &&
-			process.env.REMOTION_AWS_SECRET_ACCESS_KEY &&
-			process.env.REMOTION_AWS_REGION &&
-			process.env.REMOTION_AWS_BUCKET_NAME,
-	);
-};
 
 const startLocalRender = ({
 	inputProps,
@@ -158,41 +137,6 @@ export const action = async ({request}: Route.ActionArgs) => {
 			fontInfos: collectFontInfoFromItems(Object.values(body.items)),
 		};
 
-		// Lambda path: use AWS if configured
-		if (isAwsConfigured()) {
-			const {requireServerEnv} = await import(
-				'../../editor/utils/server-env'
-			);
-			const serverEnv = requireServerEnv();
-
-			const {bucketName, renderId} = await renderMediaOnLambda({
-				codec: body.codec,
-				inputProps,
-				composition: COMP_NAME,
-				functionName: speculateFunctionName({
-					diskSizeInMb: DISK_SIZE_IN_MB,
-					memorySizeInMb: MEM_SIZE_IN_MB,
-					timeoutInSeconds: TIMEOUT_IN_SECONDS,
-				}),
-				colorSpace: 'bt709',
-				region: serverEnv.REMOTION_AWS_REGION,
-				serveUrl: SITE_NAME,
-				downloadBehavior: {
-					fileName: getEditorExportFileName(body.codec),
-					type: 'download',
-				},
-			});
-
-			const response: RenderVideoResponse = {
-				type: 'success',
-				bucketName,
-				renderId,
-			};
-
-			return Response.json(response);
-		}
-
-		// Local path: render on this machine via CLI
 		const renderId = generateRandomId();
 		startLocalRender({inputProps, codec: body.codec, renderId});
 

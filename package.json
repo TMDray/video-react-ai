@@ -4,7 +4,7 @@
 	"private": true,
 	"type": "module",
 	"scripts": {
-		"build": "npm run typecheck:build && npx tsx deploy.ts && react-router build",
+		"build": "npm run typecheck:build && react-router build",
 		"dev": "react-router dev",
 		"start": "react-router-serve ./build/server/index.js",
 		"upgrade": "remotion upgrade",
@@ -15,7 +15,7 @@
 		"remotion:bundle": "remotion bundle"
 	},
 	"dependencies": {
-		"@aws-sdk/s3-request-presigner": "^3.787.0",
+		"@mistralai/mistralai": "^2.1.1",
 		"@radix-ui/react-context-menu": "^2.2.15",
 		"@radix-ui/react-popover": "^1.1.14",
 		"@radix-ui/react-select": "^2.2.5",
@@ -33,7 +33,6 @@
 		"@remotion/media-utils": "4.0.438",
 		"@remotion/motion-blur": "4.0.438",
 		"@remotion/noise": "4.0.438",
-		"@remotion/openai-whisper": "4.0.438",
 		"@remotion/paths": "4.0.438",
 		"@remotion/player": "4.0.438",
 		"@remotion/preload": "4.0.438",
@@ -44,7 +43,6 @@
 		"isbot": "^5",
 		"lottie-web": "5.13.0",
 		"mediabunny": "1.37.0",
-		"openai": "^6.25.0",
 		"react": "^19.2.3",
 		"react-dom": "^19.2.3",
 		"react-router": "7.12.0",
