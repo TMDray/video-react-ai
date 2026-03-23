@@ -83,7 +83,7 @@ export const FEATURE_LOOP_BUTTON = true;
 
 // Canvas
 export const FEATURE_SHIFT_AXIS_LOCK = true;
-export const FEATURE_SHIFT_KEY_TO_OVERRIDE_ASPECT_RATIO_LOCK = false;
+export const FEATURE_SHIFT_KEY_TO_OVERRIDE_ASPECT_RATIO_LOCK = true;
 export const FEATURE_CANVAS_MARQUEE_SELECTION = true;
 export const FEATURE_DROP_ASSETS_ON_CANVAS = true;
 export const FEATURE_CANVAS_ZOOM_CONTROLS = true;

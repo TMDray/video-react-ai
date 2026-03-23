@@ -1,11 +1,7 @@
-import {AwsRegion} from '@remotion/lambda';
 import {z} from 'zod';
 
 const serverEnvSchema = z.object({
-	REMOTION_AWS_BUCKET_NAME: z.string(),
-	REMOTION_AWS_REGION: z.custom<AwsRegion>(),
-	OPENAI_API_KEY: z.string().optional(),
-	REMOTION_AWS_TRANSFER_ACCELERATION: z.string().optional(),
+	MISTRAL_API_KEY: z.string().optional(),
 });
 
 type ServerEnv = z.infer<typeof serverEnvSchema>;

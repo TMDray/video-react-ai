@@ -10,7 +10,7 @@ A template containing the most essential elements of a video editor.
 
 ```bash
 npm install
-cp .env.example .env      # Optional: add AWS + OpenAI + MCP keys
+cp .env.example .env      # Optional: add Mistral + MCP keys
 npm run dev                # Opens editor at http://localhost:5173
 ```
 

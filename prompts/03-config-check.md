@@ -30,18 +30,14 @@ npm run lint            # 0 erreurs ESLint ? (ignorer src/editor/)
 Vérifie `.env` (copier depuis `.env.example` si absent) :
 
 | Variable | Requis pour | Comment vérifier |
-|----------|-------------|-----------------|
-| `REMOTION_AWS_ACCESS_KEY_ID` | Rendu Lambda + uploads S3 | `aws sts get-caller-identity` |
-| `REMOTION_AWS_SECRET_ACCESS_KEY` | Rendu Lambda + uploads S3 | idem |
-| `REMOTION_AWS_REGION` | Rendu Lambda + uploads S3 | ex: `eu-west-1` |
-| `REMOTION_AWS_BUCKET_NAME` | Rendu Lambda + uploads S3 | `aws s3 ls s3://bucket` |
-| `OPENAI_API_KEY` | Sous-titres auto (Whisper) | `curl https://api.openai.com/v1/models -H "Authorization: Bearer $KEY"` |
+| -------- | ----------- | ---------------- |
+| `MISTRAL_API_KEY` | Sous-titres auto (Voxtral) | `curl https://api.mistral.ai/v1/models -H "Authorization: Bearer $KEY"` |
 | `PEXELS_API_KEY` | MCP Stocky (images/vidéos) | `curl -H "Authorization: KEY" https://api.pexels.com/v1/curated` |
 | `UNSPLASH_ACCESS_KEY` | MCP Stocky (images) | `curl "https://api.unsplash.com/photos?client_id=KEY"` |
 | `SUNO_API_KEY` | MCP Suno (musique IA) | Tester via le MCP |
 | `JAMENDO_API_KEY` | MCP Jamendo (musique libre) | `curl "https://api.jamendo.com/v3.0/tracks/?client_id=KEY"` |
 
-Sans AWS : le rendu local fonctionne, les uploads S3 et les sous-titres sont désactivés.
+Sans `MISTRAL_API_KEY` : les sous-titres automatiques sont désactivés. Le rendu local fonctionne sans aucune clé.
 
 ## 4. Serveurs
 
