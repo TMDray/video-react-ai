@@ -1,4 +1,27 @@
-# Prompt 2 — Initialisation BMAD (Build, Measure, Analyze, Deploy)
+# Prompt 2 — Initialisation BMAD
+
+## Prérequis — Installation de BMAD
+
+Si BMAD n'est pas encore installé sur le projet :
+
+```bash
+npx bmad-method install --tools claude-code
+```
+
+Modules à sélectionner pendant l'installation :
+
+| Module | Pourquoi |
+| ------ | -------- |
+| ✅ BMad Method Agile-AI Driven-Development | Indispensable — agents de base |
+| ✅ BMad Builder | Pour créer des agents custom |
+| ✅ BMad Creative Intelligence Suite | Pertinent pour un projet vidéo/publicité |
+
+## Démarrer un cycle BMAD
+
+1. Lancer `/bmad` dans Claude Code
+2. Choisir **"Generate Project Context"** pour initialiser le contexte sur ce projet
+
+---
 
 Copie-colle ce prompt pour démarrer un cycle BMAD sur le projet.
 

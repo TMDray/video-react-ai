@@ -93,7 +93,25 @@ Clique sur une composition et appuie sur Play pour la prévisualiser.
 
 **Note** : Remotion Studio est fourni par le package `@remotion/cli` (open source, gratuit). Il se lance simplement avec `remotion studio`. Rien d'autre à installer.
 
-## Étape 6 — Configurer les MCPs (optionnel)
+## Étape 6 — Installer BMAD (optionnel mais recommandé)
+
+BMAD (BMad Agile-AI Driven-Development) est un framework d'agents IA pour piloter le développement avec Claude Code.
+
+```bash
+npx bmad-method install --tools claude-code
+```
+
+Quand l'installateur demande quels modules activer, sélectionner :
+
+| Module | Pourquoi |
+| ------ | -------- |
+| ✅ BMad Method Agile-AI Driven-Development | Indispensable — agents de base (architect, dev, PM) |
+| ✅ BMad Builder | Pour créer des agents custom adaptés au projet |
+| ✅ BMad Creative Intelligence Suite | Pertinent pour un projet vidéo/publicité |
+
+Après installation, lancer `/bmad` dans Claude Code et choisir **"Generate Project Context"** pour initialiser le contexte BMAD sur ce projet.
+
+## Étape 8 — Configurer les MCPs (optionnel)
 
 Les MCPs permettent à Claude de chercher des assets (images, vidéos, musique).
 
