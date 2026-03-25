@@ -113,17 +113,31 @@ Après installation, lancer `/bmad` dans Claude Code et choisir **"Generate Proj
 
 ## Étape 8 — Configurer les MCPs (optionnel)
 
-Les MCPs permettent à Claude de chercher des assets (images, vidéos, musique).
+Les MCPs permettent à Claude de sourcer et générer des assets directement.
 
-1. Vérifier que `uv` et Python 3.12 sont installés
-2. Tester : `uv run --python 3.12 --with "mcp,httpx,python-dotenv" python3 -c "import mcp; print('OK')"`
-3. Configurer les clés API dans `.env` :
-   - `PEXELS_API_KEY` — images/vidéos stock (gratuit sur pexels.com)
-   - `UNSPLASH_ACCESS_KEY` — images stock (gratuit sur unsplash.com)
-   - `SUNO_API_KEY` — musique IA (payant)
-   - `JAMENDO_API_KEY` — musique libre (gratuit sur jamendo.com)
+| MCP | Clé API | Obtenir |
+| --- | ------- | ------- |
+| **Stocky** | `PEXELS_API_KEY` + `UNSPLASH_ACCESS_KEY` | pexels.com/api + unsplash.com/developers (gratuit) |
+| **Suno** | `SUNO_API_KEY` | sunoapi.org (payant) |
+| **Jamendo** | `JAMENDO_API_KEY` | jamendo.com/developers (gratuit) |
+| **Krea** | `KREA_API_KEY` | krea.ai/api-keys — Kling + Hailuo 2.3 |
+| **ElevenLabs** | `ELEVENLABS_API_KEY` | elevenlabs.io — TTS + voice cloning |
 
-4. Vérifier `.claude/settings.json` — les 3 MCPs (stocky, suno, jamendo) doivent pointer vers les bons chemins absolus avec `uv run --python 3.12`
+**Installation :**
+
+```bash
+# 1. Prérequis Python (pour Stocky, Suno, Jamendo)
+brew install python@3.12 uv
+uv run --python 3.12 --with "mcp,httpx,python-dotenv" python3 -c "import mcp; print('OK')"
+
+# 2. Krea MCP (npx — aucune installation manuelle)
+npx -y krea-mcp --version
+
+# 3. ElevenLabs MCP (uvx)
+uvx elevenlabs-mcp --help
+```
+
+Configurer les clés dans `.env`, puis vérifier `.claude/settings.json` — les 5 MCPs sont préconfigurés.
 
 ## Étape 7 — Vérification finale
 

@@ -25,6 +25,9 @@ cp .env.example .env
 | `UNSPLASH_ACCESS_KEY` | MCP Stocky (images) | — |
 | `SUNO_API_KEY` | MCP Suno (musique IA) | — |
 | `JAMENDO_API_KEY` | MCP Jamendo (musique libre) | — |
+| `KREA_API_KEY` | MCP Krea (Kling + Hailuo 2.3 vidéo IA) | — |
+| `ELEVENLABS_API_KEY` | MCP ElevenLabs (TTS + voice cloning) | — |
+| `ELEVENLABS_MCP_BASE_PATH` | MCP ElevenLabs — dossier sortie audio | `~/Desktop` |
 
 Toutes les clés sont optionnelles. L'éditeur fonctionne sans aucune clé.
 
@@ -108,11 +111,15 @@ Installed alongside the editor for creating compositions:
 
 ## MCP Servers
 
-Three MCP servers in `.mcp/` for Claude-assisted asset sourcing:
+Five MCP servers configured in `.claude/settings.json` for Claude-assisted asset sourcing and generation:
 
-- **Stocky** (`.mcp/stocky/`) — Search and download stock images (Pexels + Unsplash) and videos (Pexels)
-- **Suno** (`.mcp/suno/`) — Generate AI music from text prompts (paid API)
-- **Jamendo** (`.mcp/jamendo/`) — Search and download royalty-free CC music
+| MCP | Source | Clé API | Usage |
+| --- | ------ | ------- | ----- |
+| **Stocky** (`.mcp/stocky/`) | Pexels + Unsplash | `PEXELS_API_KEY`, `UNSPLASH_ACCESS_KEY` | Images et vidéos stock |
+| **Suno** (`.mcp/suno/`) | suno.ai | `SUNO_API_KEY` | Génération de musique IA |
+| **Jamendo** (`.mcp/jamendo/`) | jamendo.com | `JAMENDO_API_KEY` | Musique libre de droits |
+| **Krea** (`npx krea-mcp`) | fal.ai / krea.ai | `KREA_API_KEY` | Vidéo IA : Kling (illustration→animation), Hailuo 2.3 (personnages, logos) |
+| **ElevenLabs** (`uvx elevenlabs-mcp`) | elevenlabs.io | `ELEVENLABS_API_KEY` | TTS, voice cloning, conversion vocale |
 
 Configure API keys in `.env` and MCP config in `.claude/settings.json`.
 

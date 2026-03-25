@@ -22,6 +22,21 @@
 			"env": {
 				"JAMENDO_API_KEY": "${JAMENDO_API_KEY}"
 			}
+		},
+		"krea": {
+			"command": "npx",
+			"args": ["-y", "krea-mcp"],
+			"env": {
+				"KREA_API_KEY": "${KREA_API_KEY}"
+			}
+		},
+		"elevenlabs": {
+			"command": "uvx",
+			"args": ["elevenlabs-mcp"],
+			"env": {
+				"ELEVENLABS_API_KEY": "${ELEVENLABS_API_KEY}",
+				"ELEVENLABS_MCP_BASE_PATH": "${ELEVENLABS_MCP_BASE_PATH}"
+			}
 		}
 	}
 }

@@ -36,6 +36,8 @@ Vérifie `.env` (copier depuis `.env.example` si absent) :
 | `UNSPLASH_ACCESS_KEY` | MCP Stocky (images) | `curl "https://api.unsplash.com/photos?client_id=KEY"` |
 | `SUNO_API_KEY` | MCP Suno (musique IA) | Tester via le MCP |
 | `JAMENDO_API_KEY` | MCP Jamendo (musique libre) | `curl "https://api.jamendo.com/v3.0/tracks/?client_id=KEY"` |
+| `KREA_API_KEY` | MCP Krea (Kling + Hailuo 2.3) | Tester via le MCP |
+| `ELEVENLABS_API_KEY` | MCP ElevenLabs (TTS + voix) | Tester via le MCP |
 
 Sans `MISTRAL_API_KEY` : les sous-titres automatiques sont désactivés. Le rendu local fonctionne sans aucune clé.
 
@@ -50,8 +52,23 @@ npm run remotion:studio  # Studio → localhost:3002 → doit afficher les compo
 
 Vérifie que chaque MCP démarre :
 ```bash
+# MCPs Python (stocky, suno, jamendo)
 uv run --python 3.12 --with "mcp,httpx,python-dotenv" python3 -c "import mcp; print('OK')"
+
+# MCP Krea (npx)
+npx -y krea-mcp --version
+
+# MCP ElevenLabs (uvx)
+uvx elevenlabs-mcp --help
 ```
+
+| MCP | Type | Requis pour |
+| --- | ---- | ----------- |
+| stocky | uv/Python | Images et vidéos stock |
+| suno | uv/Python | Musique IA |
+| jamendo | uv/Python | Musique libre |
+| krea | npx | Vidéo IA (Kling, Hailuo 2.3) |
+| elevenlabs | uvx | TTS, voice cloning |
 
 ## 6. Vite config
 
